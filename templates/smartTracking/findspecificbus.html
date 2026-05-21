@@ -16,7 +16,7 @@
   <link href="{% static 'accounts/assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon"> 
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
@@ -87,10 +87,36 @@
     <section id="about" class="about">
       <div class="container">
         {% if check == 1 %}
-        <div class="section-title">
-          <h3><span>Sorry</span> , We can't find the bus "{{ error }}". Try again...</h3>
-{#          <p>Ut possimus qui ut temporibus culpa velit eveniet modi omnis est adipisci expedita at voluptas atque vitae#}
-{#            autem.</p>#}
+        <div class="row justify-content-center">
+          <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-0 p-4 p-md-5 text-center mb-5" style="background: white; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05) !important; border: 1px solid rgba(0,0,0,0.04) !important;">
+              <div class="section-title mb-4">
+                <div class="mb-3">
+                  <i class="ri-search-eye-line" style="font-size: 3.5rem; color: #e43c5c;"></i>
+                </div>
+                <h3 class="mb-2" style="font-weight: 800; color: #0f172a; font-size: 1.75rem;">Service <span>Not Found</span></h3>
+                <p class="text-muted" style="font-size: 0.95rem;">
+                  Sorry, we couldn't find the route or bus service for "<strong>{{ error }}</strong>".
+                </p>
+              </div>
+
+              <form action="{% url 'findspecificbus' %}" method="post" autocomplete="off" class="text-left">{% csrf_token %}
+                <div class="form-group mb-3">
+                  <label for="myInput" style="font-weight: 600; color: #475569; font-size: 0.85rem;">Try another service number:</label>
+                  <div class="autocomplete w-100">
+                    <input id="myInput" type="text" class="form-control" placeholder="Enter bus number or metro line (e.g. 500D)..." name="bus_name" required style="border-radius: 30px !important; padding: 12px 20px !important; height: auto;">
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block py-2.5" style="border-radius: 30px !important; font-weight: 600;">Search Service</button>
+              </form>
+
+              <div class="mt-4 pt-3 border-top">
+                <a href="{% url 'home' %}" class="text-secondary" style="font-weight: 600; font-size: 0.9rem;">
+                  <i class="ri-arrow-left-line"></i> Back to Homepage
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
         {% else %}
         <div class="row">
@@ -99,13 +125,17 @@
 
 
 
-<div class="card border-info shadow-me" style="height:20%;">
-  <h2 class="card-header">Bus Name: <span style="color: #e43c5c;">{{ bus_name }}</span></h2>
-  <div class="card-body">
-    <h2 class="card-title">Starting Point: <span style="color: #e43c5c;">{{ start }}</span></h2>
-    <h2 class="card-title">End Point: <span style="color: #e43c5c;">{{ end }}</span></h2>
+<div class="card shadow-sm border-0" style="background: white; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05) !important; border: 1px solid rgba(0,0,0,0.04) !important;">
+  <div class="card-header border-0 text-white" style="background: linear-gradient(135deg, var(--dark-indigo), #0f3460); border-radius: 16px 16px 0 0; padding: 18px 24px;">
+    <h3 class="mb-0" style="font-size: 1.3rem; font-weight: 700; color: #fff;">Service: <span style="color: #ffbb2c;">{{ bus_name }}</span></h3>
+  </div>
+  <div class="card-body" style="padding: 24px;">
+    <p class="mb-1" style="font-size: 0.85rem; color:#64748b; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;">Starting Point</p>
+    <h4 style="font-weight: 700; color: #0f172a; margin-bottom: 20px; font-size: 1.25rem;">{{ start }}</h4>
+    <p class="mb-1" style="font-size: 0.85rem; color:#64748b; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;">End Point</p>
+    <h4 style="font-weight: 700; color: #0f172a; margin-bottom: 24px; font-size: 1.25rem;">{{ end }}</h4>
     <a href="{{ map_url }}" target="_blank" rel="noopener noreferrer"
-       class="btn btn-primary mt-2">
+       class="btn btn-primary btn-block text-center py-2" style="border-radius: 30px !important;">
       <i class="ri-map-pin-line"></i> View Full Route on Google Maps
     </a>
   </div>

@@ -16,7 +16,7 @@
   <link href="{% static 'accounts/assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon"> 
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
@@ -94,60 +94,64 @@
 <section id="about" class="about">
   <div class="container">
 
-    <div class="section-title">
-      
+    <div class="section-title text-center mb-5" data-aos="fade-down">
       <h3>{% trans "List of bus routes in Bengaluru City" %}</h3>
-      <hr>
+      <p class="text-muted">Browse BMTC routes, Namma Metro lines, and local transport networks across the city</p>
     </div>
 
-    <div class="row content">
-     
-      <!-- ..................ADDED.................  -->
-      <!-- ...............TABLE......................  -->
-<input style="width: 30%;" id="myInput" type="text" class="form-group pull-left search form-control" placeholder="Search bus name / place name">
+    <div class="row content justify-content-center">
+      <div class="col-12 col-xl-11">
+        
+        <!-- Search Input Bar -->
+        <div class="w-100 mb-4 d-flex justify-content-between align-items-center flex-wrap" style="gap: 15px;" data-aos="fade-right">
+          <div class="search-input-wrapper" style="max-width: 400px; width: 100%;">
+            <i class="ri-search-line search-icon"></i>
+            <input id="myInput" type="text" class="form-control search-input" placeholder="{% trans 'Search bus name / place name...' %}">
+          </div>
+        </div>
 
-<style>
-  .badge-bus    { background:#ffbb2c; color:#000; }
-  .badge-metro  { background:#7b2d8b; color:#fff; }
-  .badge-rail   { background:#1565c0; color:#fff; }
-  .badge-auto   { background:#2e7d32; color:#fff; }
-</style>
+        <!-- Premium Table List -->
+        <div class="table-responsive transit-table-wrapper" data-aos="fade-up" data-aos-duration="800">
+          <table class="transit-table table-hover">
+            <thead>
+              <tr>
+                <th scope="col" style="width: 80px;">#</th>
+                <th scope="col">{% trans "Service Name" %}</th>
+                <th scope="col" style="width: 180px;">{% trans "Mode" %}</th>
+                <th scope="col">{% trans "Start Point" %}</th>
+                <th scope="col">{% trans "End Point" %}</th>
+              </tr>
+            </thead>
+            <tbody id="myTable">
+            {% for data in contex %}
+              <tr>
+                <th scope="row">{{ data.bus_id }}</th>
+                <td>
+                  <span class="bus-name-title">{{ data.bus_name }}</span>
+                  <span class="route-list">{{ data.routes }}</span>
+                </td>
+                <td>
+                  <span class="badge-pill-transit badge-{{ data.mode|lower }}">
+                    {% if data.mode == 'METRO' %}<i class="ri-train-fill"></i>
+                    {% elif data.mode == 'RAIL' %}<i class="ri-train-line"></i>
+                    {% elif data.mode == 'AUTO' %}<i class="ri-e-bike-2-fill"></i>
+                    {% else %}<i class="ri-bus-fill"></i>{% endif %}
+                    {{ data.mode_display }}
+                  </span>
+                </td>
+                <td>
+                  <span style="font-weight: 500;"><i class="ri-map-pin-user-line text-muted mr-1"></i> {{ data.start }}</span>
+                </td>
+                <td>
+                  <span style="font-weight: 500;"><i class="ri-map-pin-5-line text-muted mr-1"></i> {{ data.end }}</span>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
 
-<table class="table table-striped table-bordered">
-    <thead class="bg-success text-light">
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">{% trans "Service Name" %}</th>
-        <th scope="col">{% trans "Mode" %}</th>
-        <th scope="col">{% trans "Start Point" %}</th>
-        <th scope="col">{% trans "End Point" %}</th>
-      </tr>
-    </thead>
-    <tbody id="myTable">
-    {% for data in contex %}
-      <tr>
-        <th scope="row">{{ data.bus_id }}</th>
-        <td>{{ data.bus_name }} <br><span style="color:#e43c5c">{{ data.routes }}</span></td>
-        <td>
-          <span class="badge badge-pill badge-{{ data.mode|lower }}">
-            {% if data.mode == 'METRO' %}<i class="ri-train-fill"></i>
-            {% elif data.mode == 'RAIL' %}<i class="ri-train-line"></i>
-            {% elif data.mode == 'AUTO' %}<i class="ri-e-bike-2-fill"></i>
-            {% else %}<i class="ri-bus-fill"></i>{% endif %}
-            {{ data.mode_display }}
-          </span>
-        </td>
-        <td>{{ data.start }}</td>
-        <td>{{ data.end }}</td>
-      </tr>
-    {% endfor %}
-    </tbody>
-  </table>
-<!-- ...............TABLE......................  -->
-      <!-- ..................ADDED.................  -->
-
-
-
+      </div>
     </div>
   </div>
 </section><!-- End About Section -->

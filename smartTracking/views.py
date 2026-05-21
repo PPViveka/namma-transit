@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.utils import timezone
@@ -20,7 +20,9 @@ def _rain_context():
 
 
 def searchnearby_address(request):
-    location = request.POST['userlocationaddress']
+    if request.method != 'POST':
+        return redirect('home')
+    location = request.POST.get('userlocationaddress', '')
     text = config('KEY2')
     url = f"https://maps.googleapis.com/maps/api/js?key={text}&callback=initMap&libraries=&v=weekly"
     data = geocoding_from_address(location)
@@ -31,8 +33,15 @@ def searchnearby_address(request):
 
 
 def searchnearby_latlng(request):
-    location = str(request.POST['userLocation'])
-    lat, lng = location.split(sep=',', maxsplit=1)
+    if request.method != 'POST':
+        return redirect('home')
+    location = str(request.POST.get('userLocation', ''))
+    if not location or ',' not in location:
+        return redirect('home')
+    parts = location.split(sep=',', maxsplit=1)
+    if len(parts) != 2:
+        return redirect('home')
+    lat, lng = parts
     formatted_address = reverse_geocoding(location)
     nearby_list = search_nearby_places(lat=lat, lng=lng)
     text = config('KEY2')
@@ -78,10 +87,12 @@ def _build_bus_segment(bus, start, end):
 
 
 def finddirection(request):
+    if request.method != 'POST':
+        return redirect('home')
     bus_list = []
     multihop_list = []
-    start = str(request.POST['from'])
-    end = str(request.POST['to'])
+    start = str(request.POST.get('from', '')).strip()
+    end = str(request.POST.get('to', '')).strip()
     try:
         # Crowd reports from the last 30 minutes
         recent_cutoff = timezone.now() - timedelta(minutes=30)
@@ -182,7 +193,9 @@ def auto_fare(request):
 
 
 def findspecificbus(request):
-    bus_name_from_user = str(request.POST['bus_name']).strip()
+    if request.method != 'POST':
+        return redirect('home')
+    bus_name_from_user = str(request.POST.get('bus_name', '')).strip()
     try:
         # Try exact-ish match first (search term inside bus name)
         qs = BusInformation.objects.filter(bus_name__icontains=bus_name_from_user)
@@ -194,7 +207,10 @@ def findspecificbus(request):
                 qs = BusInformation.objects.filter(bus_name__icontains=numeric_prefix.group(1))
         bus = qs[0]
         ssource_destination = str(bus.bus_sourcetodestination)
-        start, end = ssource_destination.split(sep='-', maxsplit=1)
+        if '-' in ssource_destination:
+            start, end = ssource_destination.split(sep='-', maxsplit=1)
+        else:
+            start, end = ssource_destination, ssource_destination
         routes = bus.route_id.routes.split(sep=',')
         flat_stops = [s.strip() for s in routes]
         list_route = []
@@ -221,7 +237,11 @@ def findspecificbus(request):
 def allbuses(request):
     buses_list = []
     for bus in BusInformation.objects.all():
-        start, end = str(bus.bus_sourcetodestination).split(sep='-', maxsplit=1)
+        ssource_destination = str(bus.bus_sourcetodestination)
+        if '-' in ssource_destination:
+            start, end = ssource_destination.split(sep='-', maxsplit=1)
+        else:
+            start, end = ssource_destination, ssource_destination
         routes = bus.route_id.routes.split(sep=',')
         design = routes[0]
         for r in range(1, len(routes) - 1):

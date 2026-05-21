@@ -6,12 +6,13 @@ PER_KM_NIGHT = 22.5   # ₹/km (22:00–05:00, 1.5× day rate)
 MINIMUM_FARE = 30.0   # ₹ floor
 
 
-def estimate_auto_fare(distance_km: float) -> dict:
+def estimate_auto_fare(distance_km: float, hour: int = None) -> dict:
     """
     Estimate auto-rickshaw fare for distance_km using the KSRTC Bengaluru
     tariff (₹30 base, ₹15/km day, ₹22.50/km night, minimum ₹30).
     """
-    hour = datetime.now().hour
+    if hour is None:
+        hour = datetime.now().hour
     is_night = hour >= 22 or hour < 5
     per_km = PER_KM_NIGHT if is_night else PER_KM_DAY
     fare = max(BASE_FARE + distance_km * per_km, MINIMUM_FARE)

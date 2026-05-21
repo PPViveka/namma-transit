@@ -17,7 +17,7 @@
   <link href="{% static 'accounts/assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon"> 
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"> <!-- New Created -->
@@ -35,41 +35,7 @@
   <link href="{% static 'accounts/assets/css/custom.css' %}" rel="stylesheet"> <!-- New Created --> 
   <link href="{% static 'accounts/assets/css/style.css' %}" rel="stylesheet">  
 </head>
-<style>
-  /* search suggestions  */
-.autocomplete {
-position: relative;
-display: inline-block;
-}
 
-.autocomplete-items {
-position: absolute;
-border: 1px solid #d4d4d4;
-border-bottom: none;
-border-top: none;
-z-index: 99;
-
-top: 100%;
-left: 0;
-right: 0;
-}
-
-.autocomplete-items div {
-padding: 10px;
-cursor: pointer;
-background-color: #fff; 
-border-bottom: 1px solid #d4d4d4; 
-}
-
-.autocomplete-items div:hover {
-background-color: #e9e9e9; 
-}
-
-.autocomplete-active {
-background-color: DodgerBlue !important; 
-color: #ffffff; }
-/* search suggestions  */
-</style>
 
 <body>
   
@@ -166,54 +132,58 @@ color: #ffffff; }
           </div>
 
           <!-- SEARCH BAR - FIND_DERECTIONS  -->
-          <div class="col-md-4 offset-md-4 mt-5 border border-warning pt-3" id="findDerections">
+          <div class="col-md-6 offset-md-3 mt-5 pt-3" id="findDerections">
             <form action="{% url 'finddirection' %}" method="post">{% csrf_token %}
-              <div class="form-row" autocomplete="off">
-                <div class=" col input-group mb-3">
-                  <div class="autocomplete">
-                       <input  id="inputFrom" type="text" class="form-control" placeholder="From" required name="from" autocomplete="off">
+              <div class="form-row align-items-center" autocomplete="off">
+                <div class="col-md-5 mb-3">
+                  <div class="autocomplete w-100">
+                       <input id="inputFrom" type="text" class="form-control" placeholder="From Stop" required name="from" autocomplete="off">
                   </div>
                 </div>
-                <div class=" col input-group mb-3">
-                  <div class="autocomplete">
-                    <input id="inputTo" type="text" class="form-control" placeholder="To" required name="to" autocomplete="off">
+                <div class="col-md-5 mb-3">
+                  <div class="autocomplete w-100">
+                    <input id="inputTo" type="text" class="form-control" placeholder="To Stop" required name="to" autocomplete="off">
                   </div>
                 </div>   
-                <div class="input-group-append">
-                  <button type="submit" class="btn btn-primary">Search</button>
+                <div class="col-md-2 mb-3">
+                  <button type="submit" class="btn btn-primary btn-block">Search</button>
                 </div>               
               </div>
             </form>
           </div>
 
           <!-- SEARCH BAR - NEARBY_STATIONS  -->
-          <div class="col-md-4 offset-md-4 mt-5 border border-warning pt-3" id="nearbyStations">
+          <div class="col-md-6 offset-md-3 mt-5 pt-3" id="nearbyStations">
             <form action="{% url 'searchnearby_address' %}" method="post">{% csrf_token %}
-              <div class="form-row">
-                <div class=" col input-group mb-3">
-                  <input type="text" class="form-control" placeholder="Search ...." name="userlocationaddress" required>
-                  <div class="input-group-append">
-                    <span class="input-group-text">
-                    <i class="ri-pin-distance-fill" onclick="getLocation()" style="color: #e80368;"data-toggle="tooltip" data-placement="bottom" title="From your location"></i>
-                   </span>
-                    <button type="submit" class="btn btn-primary">Search</button>
+              <div class="form-row align-items-center">
+                <div class="col-md-10 mb-3">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search address or stop name..." name="userlocationaddress" required style="border-radius: 30px 0 0 30px !important;">
+                    <div class="input-group-append">
+                      <span class="input-group-text" style="cursor:pointer; background: #fff !important; border-left: none !important; border-radius: 0 30px 30px 0 !important;">
+                        <i class="ri-pin-distance-fill" onclick="getLocation()" style="color: #e43c5c; font-size: 1.25rem;" data-toggle="tooltip" data-placement="bottom" title="Use current GPS location"></i>
+                      </span>
+                    </div>
                   </div>
+                </div>
+                <div class="col-md-2 mb-3">
+                  <button type="submit" class="btn btn-primary btn-block">Search</button>
                 </div>
               </div>
             </form>
           </div>
 
           <!-- SEARCH BAR - SPECIFIC_BUS  -->                
-          <div class="col-md-4 offset-md-4 mt-5 border border-warning pt-3" id="specificBus">
+          <div class="col-md-6 offset-md-3 mt-5 pt-3" id="specificBus">
             <form action="{% url 'findspecificbus' %}" method="post" autocomplete="off">{% csrf_token %}
-              <div class="form-row">
-                <div class=" col input-group mb-3">
-                  <div class="autocomplete">
-                    <input id="myInput" type="text" class="form-control" placeholder="Search ...." aria-label="Recipient's username" name="bus_name" required>
+              <div class="form-row align-items-center">
+                <div class="col-md-10 mb-3">
+                  <div class="autocomplete w-100">
+                    <input id="myInput" type="text" class="form-control" placeholder="Enter bus number or metro line (e.g. 500D)..." name="bus_name" required>
                   </div>
-                  <div class="input-group-append">
-                    <button type="submit" class="btn btn-primary">Search</button>
-                  </div>
+                </div>
+                <div class="col-md-2 mb-3">
+                  <button type="submit" class="btn btn-primary btn-block">Search</button>
                 </div>
               </div>
             </form>

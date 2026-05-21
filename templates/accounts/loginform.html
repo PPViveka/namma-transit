@@ -6,8 +6,7 @@
   <meta charset="UTF-8">
   <title>Sign-in to Smart Transport System</title>
 <!-- Google Fonts  -->
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Raleway:300,600" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet"> 
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- bootstrap  -->
@@ -21,8 +20,8 @@
 <!-- ............NAVBAR............... -->
 <nav class="navbar">
    <div class="brand-title">
-      <a href="{% url 'home' %}" class="mr-auto">
-         <img src="{% static 'accounts/assets/img/logo.png' %}" width="150px" height="" alt="" class="img-fluid">
+      <a href="{% url 'home' %}" class="mr-auto" style="text-decoration:none;">
+         <span style="font-size:1.5rem;font-weight:700;color:#e43c5c;letter-spacing:-0.5px;">🚌 Namma</span><span style="font-size:1.5rem;font-weight:700;color:#fff;"> Transit</span>
       </a>
    </div>
    <a href="#" class="toggle-button">
@@ -34,22 +33,22 @@
      <ul>
        <li><a href="{% url 'home' %}">Home</a></li>
        <li><a href="{% url 'home' %}#services">Search</a></li>
-       <li><a href="{% url 'home' %}#team">About</a></li>
+       <li><a href="{% url 'home' %}#contact">About</a></li>
        <li><a href="{% url 'home' %}#contact">Contact</a></li>
-         {% if user.is_authenticated %}
-            <li>
-               <button id="myBtn" type="button" class="btn btn-red" onclick="document.location='{% url 'logout' %}'">
-                     Logout
-               </button>
-           </li>
-         {% else %}
-            <li>
-               <button id="myBtn" type="button" class="btn btn-red" onclick="document.location='{% url 'accounts' %}'">
-                     SignUP/Login
-               </button>
+          {% if user.is_authenticated %}
+             <li>
+                <button id="myBtn" type="button" class="btn btn-red" onclick="document.location='{% url 'logout' %}'">
+                      Logout
+                </button>
             </li>
-         {% endif %}
-     </ul>
+          {% else %}
+             <li>
+                <button id="myBtn" type="button" class="btn btn-red" onclick="document.location='{% url 'accounts' %}'">
+                      SignUP/Login
+                </button>
+             </li>
+          {% endif %}
+      </ul>
    </div>
  </nav>
 <!-- .............NAVBAR.............. -->
@@ -61,16 +60,18 @@
 
          <!-- Brand Box -->
          <div class="col-sm-6 brand">
-            <a href="#" class="logo">STS <span>.</span></a>
+            <a href="{% url 'home' %}" class="logo">NAMMA <span>TRANSIT</span></a>
 
             <div class="heading">
-               <h1><img src="{% static 'accounts/assets/img/logo.png' %}" width="250px" height="" alt="" class="img-fluid"></h1>
+               <h1 style="font-size: 2.5rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 10px;">
+                 <span style="color:#e43c5c;">🚌 Namma</span><span style="color:#fff;"> Transit</span>
+               </h1>
                <p>Your Transportation Partner</p>
             </div>
 
             <div class="success-msg">
                <p style="color:white">Great! You are one of our members now</p>
-               <a href="#" class="profile">Home</a>
+               <a href="{% url 'home' %}" class="profile">Home</a>
             </div>
          </div>
 

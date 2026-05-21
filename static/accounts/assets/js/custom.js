@@ -43,11 +43,15 @@ document.getElementById("passLat").click();
 
 // ..............MOVING BUS.................. 
 function initialiseAxisImages() {
-var axis = document.getElementById('axis');
-var axisImages = axis.getElementsByTagName('img');
-
-axisImages[0].classList.remove('move-right');
-axisImages[1].classList.remove('move-left');
+  var axis = document.getElementById('axis');
+  if (!axis) return;
+  var axisImages = axis.getElementsByTagName('img');
+  if (axisImages && axisImages.length > 0) {
+    axisImages[0].classList.remove('move-right');
+  }
+  if (axisImages && axisImages.length > 1) {
+    axisImages[1].classList.remove('move-left');
+  }
 }
 
 window.addEventListener('load', initialiseAxisImages, false);
@@ -55,12 +59,12 @@ window.addEventListener('load', initialiseAxisImages, false);
 
 // ..............TABLE SEARCHING.................. 
 $(document).ready(function(){
-$("#myInput").on("keyup", function() {
-  var value = $(this).val().toLowerCase();
-  $("#myTable tr").filter(function() {
-    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
   });
-});
 });
 // ..............TABLE SEARCHING.................. 
 
@@ -68,10 +72,11 @@ $("#myInput").on("keyup", function() {
 
 // ....................................SEARCH SUGGESTION ....................................... 
 function autocomplete(inp, arr) {
+  if (!inp) return;
 
-var currentFocus;
+  var currentFocus;
 
-inp.addEventListener("input", function(e) {
+  inp.addEventListener("input", function(e) {
     var a, b, i, val = this.value;
   
     closeAllLists();

@@ -16,7 +16,7 @@
   <link href="{% static 'accounts/assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon"> 
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
@@ -93,13 +93,23 @@
     <section id="services" class="services">
         <div class="container">
           <style>
-            .badge-bus   { background:#ffbb2c; color:#000; font-size:.8rem; padding:4px 8px; border-radius:12px; }
-            .badge-metro { background:#7b2d8b; color:#fff; font-size:.8rem; padding:4px 8px; border-radius:12px; }
-            .badge-rail  { background:#1565c0; color:#fff; font-size:.8rem; padding:4px 8px; border-radius:12px; }
-            .badge-auto  { background:#2e7d32; color:#fff; font-size:.8rem; padding:4px 8px; border-radius:12px; }
-            .interchange-card { border-left:4px solid #e43c5c; background:#fff8f8; border-radius:6px; padding:14px 18px; margin-bottom:12px; }
-            .interchange-step { display:flex; align-items:center; gap:10px; margin:6px 0; }
-            .ix-divider { text-align:center; color:#999; font-size:.85rem; margin:4px 0; }
+            .badge-bus   { background:#ffbb2c; color:#000; font-size:.8rem; padding:4px 12px; border-radius:20px; font-weight:600; }
+            .badge-metro { background:#7b2d8b; color:#fff; font-size:.8rem; padding:4px 12px; border-radius:20px; font-weight:600; }
+            .badge-rail  { background:#1565c0; color:#fff; font-size:.8rem; padding:4px 12px; border-radius:20px; font-weight:600; }
+            .badge-auto  { background:#2e7d32; color:#fff; font-size:.8rem; padding:4px 12px; border-radius:20px; font-weight:600; }
+            .interchange-card { 
+              border-left:5px solid #e43c5c; 
+              background:#ffffff; 
+              border-radius:12px; 
+              padding:18px 24px; 
+              margin-bottom:16px; 
+              box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+              border-top: 1px solid rgba(0,0,0,0.02);
+              border-right: 1px solid rgba(0,0,0,0.02);
+              border-bottom: 1px solid rgba(0,0,0,0.02);
+            }
+            .interchange-step { display:flex; align-items:center; gap:12px; margin:8px 0; font-weight: 500; color:#334155; }
+            .ix-divider { text-align:center; color:#94a3b8; font-size:.85rem; margin:10px 0; font-weight: 600; }
           </style>
 
           <div class="section-title">
@@ -132,9 +142,9 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">
-          {{ data.bus_name }}
-          <span class="badge-{{ data.mode|lower }}" style="font-size:.75rem;margin-left:8px;padding:3px 8px;border-radius:10px;">
+        <h5 class="modal-title d-flex align-items-center" id="exampleModalLongTitle">
+          <span>{{ data.bus_name }}</span>
+          <span class="badge-pill-transit badge-{{ data.mode|lower }} ml-2" style="font-size: 0.75rem !important; padding: 4px 10px !important;">
             {% if data.mode == 'METRO' %}<i class="ri-train-fill"></i>
             {% elif data.mode == 'RAIL' %}<i class="ri-train-line"></i>
             {% elif data.mode == 'AUTO' %}<i class="ri-e-bike-2-fill"></i>
@@ -288,13 +298,15 @@
       <div class="row">
 {% for data in bus_list %}
         <div class="col-lg-3 col-md-4 col-6 mt-4" data-toggle="modal" data-target="#{{ data.bus_id }}">
-          <div class="icon-box">
-            {% if data.mode == 'METRO' %}<i class="ri-train-fill" style="color:#7b2d8b;"></i>
-            {% elif data.mode == 'RAIL' %}<i class="ri-train-line" style="color:#1565c0;"></i>
-            {% elif data.mode == 'AUTO' %}<i class="ri-e-bike-2-fill" style="color:#2e7d32;"></i>
-            {% else %}<i class="ri-bus-fill" style="color:#ffbb2c;"></i>{% endif %}
-            <h3>{{ data.bus_name }}</h3>
-            <p style="font-size:.75rem;color:#888;">{{ data.mode_display }}</p>
+          <div class="icon-box" style="padding: 28px 20px !important;">
+            {% if data.mode == 'METRO' %}<i class="ri-train-fill" style="color:#7b2d8b; font-size: 2.2rem; margin-bottom: 12px;"></i>
+            {% elif data.mode == 'RAIL' %}<i class="ri-train-line" style="color:#1565c0; font-size: 2.2rem; margin-bottom: 12px;"></i>
+            {% elif data.mode == 'AUTO' %}<i class="ri-e-bike-2-fill" style="color:#2e7d32; font-size: 2.2rem; margin-bottom: 12px;"></i>
+            {% else %}<i class="ri-bus-fill" style="color:#ffbb2c; font-size: 2.2rem; margin-bottom: 12px;"></i>{% endif %}
+            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 6px;">{{ data.bus_name }}</h3>
+            <span class="badge-pill-transit badge-{{ data.mode|lower }}">
+              {{ data.mode_display }}
+            </span>
           </div>
         </div>
 {% endfor %}

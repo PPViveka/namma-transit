@@ -13,8 +13,10 @@ def account(request):
 
 
 def login(request):
-    user_name = request.POST['loginemail']
-    password = request.POST['loginPassword']
+    if request.method != 'POST':
+        return redirect('accounts')
+    user_name = request.POST.get('loginemail', '')
+    password = request.POST.get('loginPassword', '')
     # ------------------------------
     values = {
         'user_name': user_name,
@@ -39,10 +41,12 @@ def login(request):
 
 
 def register(request):  # getting new user info
-    user_name = request.POST['userid']
-    full_name = request.POST['name']
-    email = request.POST['emailAdress']
-    password = request.POST['password']
+    if request.method != 'POST':
+        return redirect('accounts')
+    user_name = request.POST.get('userid', '')
+    full_name = request.POST.get('name', '')
+    email = request.POST.get('emailAdress', '')
+    password = request.POST.get('password', '')
     # -----------------------------------
     values = {
         'user_name': user_name,
