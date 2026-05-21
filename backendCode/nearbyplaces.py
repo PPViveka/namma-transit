@@ -5,41 +5,61 @@ from decouple import config
 
 api_key = config('KEY2')
 
-_NEARBY_RADIUS_M = 500   # Google Places search radius
-_DB_RADIUS_KM = 0.75     # Haversine fallback radius for interchange stops
+_NEARBY_RADIUS_M = 500   # Google Places search radius in metres
+_DB_RADIUS_KM    = 0.75  # Haversine fallback — initial search radius
+_DB_MAX_KM       = 5.0   # Haversine fallback — expanded search radius
 
 
 def _haversine_km(lat1, lon1, lat2, lon2):
-    """Great-circle distance in km between two lat/lng points."""
     R = 6371.0
     phi1, phi2 = math.radians(lat1), math.radians(lat2)
-    dphi = math.radians(lat2 - lat1)
+    dphi   = math.radians(lat2 - lat1)
     dlambda = math.radians(lon2 - lon1)
     a = math.sin(dphi / 2) ** 2 + math.cos(phi1) * math.cos(phi2) * math.sin(dlambda / 2) ** 2
     return 2 * R * math.asin(math.sqrt(a))
 
 
-def _nearby_from_db(lat, lng, radius_km=_DB_RADIUS_KM):
+def _nearby_from_db(lat, lng):
     """
-    Haversine-based fallback: return interchange stops within radius_km.
-    Works with SQLite and requires no external API call.
-    When PostGIS is enabled this can be replaced with ST_DWithin for O(log n).
+    Haversine fallback: return interchange stops as dicts {name, lat, lng}.
+    Expands radius progressively; always returns at least the 3 nearest stops.
     """
     from home_page.models import Interchange
-    results = []
+    distances = []
     for ix in Interchange.objects.exclude(lat=None).exclude(lng=None):
-        if _haversine_km(float(lat), float(lng), ix.lat, ix.lng) <= radius_km:
-            results.append(f"{ix.stop_name}, Bengaluru, India")
-    return sorted(results)
+        dist = _haversine_km(float(lat), float(lng), float(ix.lat), float(ix.lng))
+        distances.append((dist, ix.stop_name, float(ix.lat), float(ix.lng)))
+    distances.sort(key=lambda x: x[0])
+
+    results, seen = [], set()
+
+    for dist, name, ilat, ilng in distances:
+        if dist <= _DB_RADIUS_KM and name not in seen:
+            results.append({'name': f"{name}, Bengaluru, India", 'lat': ilat, 'lng': ilng})
+            seen.add(name)
+
+    if len(results) < 3:
+        for dist, name, ilat, ilng in distances:
+            if _DB_RADIUS_KM < dist <= _DB_MAX_KM and name not in seen:
+                results.append({'name': f"{name}, Bengaluru, India", 'lat': ilat, 'lng': ilng})
+                seen.add(name)
+
+    if not results and distances:
+        for dist, name, ilat, ilng in distances[:3]:
+            if name not in seen:
+                results.append({'name': f"{name}, Bengaluru, India", 'lat': ilat, 'lng': ilng})
+                seen.add(name)
+
+    return results
 
 
 def search_nearby_places(lat, lng):
     """
-    Return a de-duplicated list of nearby bus stop address strings.
-    Primary source: Google Places API (radius 500 m, keyword 'Bus stop').
-    Fallback: Interchange table via Haversine distance when Places returns nothing.
+    Return a list of dicts {name, lat, lng} for nearby bus stops.
+    Primary: Google Places API (500 m radius, keyword 'Bus stop').
+    Fallback: Interchange table via Haversine when Places returns nothing.
     """
-    places_endpoint = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
+    endpoint = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
     params = {
         "key": api_key,
         "location": f"{lat},{lng}",
@@ -47,12 +67,18 @@ def search_nearby_places(lat, lng):
         "keyword": "Bus stop",
     }
     try:
-        r = requests.get(f"{places_endpoint}?{urlencode(params)}", timeout=5)
-        nearby_places_list = [
-            item['name'] + ', ' + item['vicinity'] + ', India'
-            for item in r.json().get('results', [])
-        ]
-        result = list(dict.fromkeys(nearby_places_list))
+        r = requests.get(f"{endpoint}?{urlencode(params)}", timeout=5)
+        raw = r.json().get('results', [])
+        seen, result = set(), []
+        for item in raw:
+            name = item['name'] + ', ' + item['vicinity'] + ', India'
+            if name not in seen:
+                seen.add(name)
+                result.append({
+                    'name': name,
+                    'lat': item['geometry']['location']['lat'],
+                    'lng': item['geometry']['location']['lng'],
+                })
     except Exception:
         result = []
 

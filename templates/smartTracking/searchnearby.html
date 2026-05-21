@@ -53,16 +53,16 @@
           {% if user.is_authenticated %}
                     <li style="color: #e43c5c;">Hi</li>
                     <li>
-                        <button type="button" class="btn btn-red" onclick="document.location='{% url 'logout' %}'">
+                        <a href="{% url 'logout' %}" class="btn btn-red">
                             Logout
-                        </button>
+                        </a>
                     </li>
                     <!-- SignUP-Login Form -->
                 {% else %}
                     <li>
-                        <button type="button" class="btn btn-red" onclick="document.location='{% url 'accounts' %}'">
+                        <a href="{% url 'accounts' %}" class="btn btn-red">
                             SignUP/Login                      
-                        </button>
+                        </a>
                     </li>
                 {% endif %}
         </ul>
@@ -109,7 +109,7 @@
                   <b>End: </b>
                   <select id="end">
                       {% for x in nearlist %}
-                    <option value="{{ x }}">{{ x }}</option>
+                    <option value="{{ x.name }}">{{ x.name }}</option>
                       {% endfor %}
                   </select>
                 </div>
@@ -125,7 +125,7 @@
               <div class="sidebar-item categories">
                 <ul>
                      {% for x in nearlist %}
-                  <li><a href="#">{{ x }} </a></li>
+                  <li><a href="#">{{ x.name }}</a></li>
                     {% endfor %}
                 </ul>
               </div><!-- End sidebar categories-->
@@ -208,6 +208,11 @@
   <script>
     window.NAMMA_LAT = parseFloat("{{ lat|default:'12.9716' }}");
     window.NAMMA_LNG = parseFloat("{{ lng|default:'77.5946' }}");
+  </script>
+
+  <!-- Inject nearby stops for map markers -->
+  <script>
+    window.NAMMA_NEARBY_STOPS = [{% for x in nearlist %}{"name": "{{ x.name|escapejs }}", "lat": {{ x.lat }}, "lng": {{ x.lng }}}{% if not forloop.last %},{% endif %}{% endfor %}];
   </script>
 
   <!-- MAP  -->

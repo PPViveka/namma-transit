@@ -6,6 +6,20 @@ api_key = config('KEY2')
 
 
 def geocoding_from_address(address):
+    # Try to find a matching interchange in our database first for perfect offline lookup!
+    query = address.strip().lower()
+    try:
+        from home_page.models import Interchange
+        for ix in Interchange.objects.exclude(lat=None).exclude(lng=None):
+            if ix.stop_name.lower() in query or query in ix.stop_name.lower():
+                return {
+                    'formatted_address': f"{ix.stop_name}, Bengaluru, India",
+                    'lat': ix.lat,
+                    'lng': ix.lng,
+                }
+    except Exception:
+        pass
+
     endpoint = "https://maps.googleapis.com/maps/api/geocode/json"
     params = {"address": address + ", Bengaluru, Karnataka, India", 'region': 'in', "key": api_key}
     url_params = urlencode(params)
