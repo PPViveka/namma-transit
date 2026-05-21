@@ -97,38 +97,46 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-8 entries">
-            <article class="entry entry-single">
-              <div class="entry-img">
-                <!-- ..............................MAP START...............................  -->
-                <div id="floating-panel">
-                  <b>Start: </b>
-                  <select id="start">
+            <!-- Directions panel — sits above the map -->
+            <div class="directions-card mb-3">
+              <div class="directions-row">
+                <div class="directions-field">
+                  <label class="directions-label"><i class="ri-map-pin-2-line"></i> Start</label>
+                  <select id="start" class="directions-select">
                     <option value="{{ formatted_address }}">{{ formatted_address }}</option>
                   </select>
-                    <br>
-                  <b>End: </b>
-                  <select id="end">
-                      {% for x in nearlist %}
-                    <option value="{{ x.name }}">{{ x.name }}</option>
-                      {% endfor %}
+                </div>
+                <div class="directions-field">
+                  <label class="directions-label"><i class="ri-flag-line"></i> End</label>
+                  <select id="end" class="directions-select">
+                    {% for x in nearlist %}
+                    <option value="{{ x.name }}">{{ x.short_name }}</option>
+                    {% endfor %}
                   </select>
                 </div>
-
-                <div id="map"></div>
-                <!-- ................................MAP END.............................  -->
               </div>
-            </article><!-- End blog entry -->
+            </div>
+
+            <article class="entry entry-single" style="padding:0; overflow:hidden;">
+              <div style="position:relative;">
+                <div id="map"></div>
+              </div>
+            </article>
           </div><!-- End blog entries list -->
+
           <div class="col-lg-4">
             <div class="sidebar">
-              <h3 class="sidebar-title">Nearby Bus Stations</h3>
-              <div class="sidebar-item categories">
-                <ul>
-                     {% for x in nearlist %}
-                  <li><a href="#">{{ x.name }}</a></li>
-                    {% endfor %}
+              <h3 class="sidebar-title"><i class="ri-bus-line mr-1" style="color:#e43c5c;"></i> Nearby Bus Stops</h3>
+              <div class="sidebar-item" style="padding:0;">
+                <ul class="nearby-stop-list">
+                  {% for x in nearlist %}
+                  <li class="nearby-stop-item">
+                    <span class="stop-icon"><i class="ri-bus-2-line"></i></span>
+                    <span class="stop-name">{{ x.short_name }}</span>
+                  </li>
+                  {% endfor %}
                 </ul>
-              </div><!-- End sidebar categories-->
+              </div><!-- End nearby stops-->
               <!-- Auto Fare Estimator -->
               <h3 class="sidebar-title mt-4"><i class="ri-e-bike-2-fill" style="color:#2e7d32;"></i> Auto Fare Estimator</h3>
               <div class="sidebar-item shadow-sm border-0 p-3" style="background:#ffffff; border-radius:12px; border:1px solid rgba(0,0,0,0.03) !important;">
@@ -212,7 +220,7 @@
 
   <!-- Inject nearby stops for map markers -->
   <script>
-    window.NAMMA_NEARBY_STOPS = [{% for x in nearlist %}{"name": "{{ x.name|escapejs }}", "lat": {{ x.lat }}, "lng": {{ x.lng }}}{% if not forloop.last %},{% endif %}{% endfor %}];
+    window.NAMMA_NEARBY_STOPS = [{% for x in nearlist %}{"name": "{{ x.name|escapejs }}", "short_name": "{{ x.short_name|escapejs }}", "lat": {{ x.lat }}, "lng": {{ x.lng }}}{% if not forloop.last %},{% endif %}{% endfor %}];
   </script>
 
   <!-- MAP  -->

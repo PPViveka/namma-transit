@@ -35,19 +35,19 @@ def _nearby_from_db(lat, lng):
 
     for dist, name, ilat, ilng in distances:
         if dist <= _DB_RADIUS_KM and name not in seen:
-            results.append({'name': f"{name}, Bengaluru, India", 'lat': ilat, 'lng': ilng})
+            results.append({'name': f"{name}, Bengaluru, India", 'short_name': name, 'lat': ilat, 'lng': ilng})
             seen.add(name)
 
     if len(results) < 3:
         for dist, name, ilat, ilng in distances:
             if _DB_RADIUS_KM < dist <= _DB_MAX_KM and name not in seen:
-                results.append({'name': f"{name}, Bengaluru, India", 'lat': ilat, 'lng': ilng})
+                results.append({'name': f"{name}, Bengaluru, India", 'short_name': name, 'lat': ilat, 'lng': ilng})
                 seen.add(name)
 
     if not results and distances:
         for dist, name, ilat, ilng in distances[:3]:
             if name not in seen:
-                results.append({'name': f"{name}, Bengaluru, India", 'lat': ilat, 'lng': ilng})
+                results.append({'name': f"{name}, Bengaluru, India", 'short_name': name, 'lat': ilat, 'lng': ilng})
                 seen.add(name)
 
     return results
@@ -80,6 +80,7 @@ def search_nearby_places(lat, lng):
                 seen.add(name)
                 result.append({
                     'name': name,
+                    'short_name': item['name'],
                     'lat': item['geometry']['location']['lat'],
                     'lng': item['geometry']['location']['lng'],
                 })

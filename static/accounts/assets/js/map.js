@@ -44,7 +44,7 @@ function initMap() {
       },
     });
     marker.addListener("click", function () {
-      infoWindow.setContent("<strong>" + stop.name + "</strong>");
+      infoWindow.setContent("<strong>" + (stop.short_name || stop.name) + "</strong>");
       infoWindow.open(map, marker);
     });
   });
