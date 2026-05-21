@@ -1,59 +1,91 @@
-# [Smart Transport System](https://github.com/ShahriarShafin/bus-transport-system)
-![License: MIT](https://img.shields.io/badge/License-MIT-blue) 
-![coverage](https://img.shields.io/badge/coverage-85%25-green)
-![repo size](https://img.shields.io/github/repo-size/Ingenuity-2-0/SmartTransportSystem?color=red)
+# 🚌 Namma Transit
+![Python](https://img.shields.io/badge/Python-3.14-blue)
+![Django](https://img.shields.io/badge/Django-5.2-green)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow)
 
-## About this project
-  A user friendly web based bus transport system created using Python( Django )<br>
-  Search & Find all the local buses of [Dhaka City](https://en.wikipedia.org/wiki/Dhaka) conveniently.
-  
-[![IMAGE ALT TEXT HERE](https://raw.githubusercontent.com/shahriarshafin/smart-transport-system/main/static/accounts/assets/img/youtube.jpg)](https://youtu.be/250wrQvzD6Y)
+A smart, user-friendly web app to navigate **Bengaluru's public transport** — BMTC buses and Namma Metro — built with Python and Django.
 
-## Features:
-- Local Bus route
-- Search between Source and Destination
-- Search only by Bus name
-- Easy view of all routes for a Bus
-- Intelligent searching
-- Rich database
-- Show Source to Destination Map.
+---
 
-## Build Setup
+## Features
+
+- **Find Directions** — Enter a source and destination to get all direct buses and metro lines, with distance, ETA, and route timeline
+- **Multi-modal Interchange** — Suggests bus + metro combinations via interchange stops
+- **Find Specific Bus** — Search by bus number (e.g. `401K`, `335E`, `500C`) to see the full route
+- **Nearby Stations** — Uses your live location to show nearby bus stops on a Google Map
+- **All Bus Routes** — Browse all 25 BMTC and Namma Metro routes in a searchable table
+- **Crowd Reporting** — Report how crowded a bus is in real time (Empty / Moderate / Full / Overcrowded)
+- **Auto Fare Estimator** — Calculate last-mile auto-rickshaw cost based on distance and time of day
+- **Rain Alert** — Warns about heavy rain and flood-prone stops in Bengaluru
+- **Google Maps Button** — Opens the full route directly in Google Maps
+- **Autocomplete** — Smart suggestions for Bengaluru stops and bus numbers
+
+---
+
+## Tech Stack
+
+- **Backend:** Python 3.14, Django 5.2
+- **Frontend:** Bootstrap 4, HTML/CSS/JS
+- **Database:** SQLite (dev)
+- **APIs:** Google Maps (Geocoding, Distance Matrix, Nearby Places), OpenWeatherMap
+- **Other:** Haversine fallback for distance when Maps API unavailable
+
+---
+
+## Setup
+
 ```bash
-# install dependencies
+# 1. Clone the repo
+git clone https://github.com/PPViveka/namma-transit.git
+cd namma-transit
+
+# 2. Install dependencies
 pip install -r requirements.txt
 
-# run the server
-python manage.py runserver
+# 3. Create a .env file with your API keys
+#    KEY2=your_google_maps_api_key
+#    OPENWEATHER_KEY=your_openweathermap_key  (optional)
 
-# site deployment
-http://127.0.0.1:port/
+# 4. Apply migrations
+python manage.py migrate
+
+# 5. Load bus data
+python manage.py loaddata home_page/fixtures/bengaluru_buses.json
+
+# 6. Run the server
+python manage.py runserver
 ```
-## Author and Contributors
-- [@SabbirHosen](https://github.com/SabbirHosen)
-- [@ShahriarShafin](https://github.com/ShahriarShafin)
-- [@SohagHossen](https://github.com/SohagHossen)
+
+Then open **http://127.0.0.1:8000** in your browser.
+
+---
+
+## Bus Routes Included
+
+25 verified BMTC and Namma Metro routes including:
+
+| Bus | Route |
+|-----|-------|
+| 335E | Majestic → Kadugodi |
+| 401 | Yelahanka → Yeshwanthpur |
+| 401B | Hampinagara → Yelahanka |
+| 401K | Yelahanka → Kengeri |
+| 500A | Hebbala → Banashankari |
+| 500C | KR Puram → Silk Board (Vajra) |
+| 500D | Silk Board → Hebbala (Vajra) |
+| 298M | Majestic → Airport (Vajra) |
+| Metro Purple Line | Kengeri ↔ Baiyappanahalli / Whitefield |
+| Metro Green Line | Nagasandra ↔ Silk Board |
+| ...and more | |
+
+---
+
+## Author
+
+**Viveka** — [@PPViveka](https://github.com/PPViveka)
+
+---
 
 ## License
-```
-MIT License
 
-Copyright (c) 2021 Sabbir Hosen | Shahriar Shafin | Shuhanur Rahaman
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+MIT License — Copyright (c) 2025 Viveka
