@@ -25,8 +25,12 @@ def geocoding_from_address(address):
     url_params = urlencode(params)
 
     url = f"{endpoint}?{url_params}"
-    req = requests.get(url)
-    results = req.json().get('results', [])
+    resp = requests.get(url, headers={'Referer': 'http://localhost:8000'})
+    body = resp.json()
+    if body.get('status') != 'OK':
+        import logging
+        logging.warning("Geocoding API error: %s — %s", body.get('status'), body.get('error_message', ''))
+    results = body.get('results', [])
     if not results:
         # Fallback: return Bengaluru city centre if geocoding fails
         return {

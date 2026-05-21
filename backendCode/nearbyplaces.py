@@ -67,7 +67,11 @@ def search_nearby_places(lat, lng):
         "keyword": "Bus stop",
     }
     try:
-        r = requests.get(f"{endpoint}?{urlencode(params)}", timeout=5)
+        r = requests.get(
+            f"{endpoint}?{urlencode(params)}",
+            headers={'Referer': 'http://localhost:8000'},
+            timeout=5,
+        )
         raw = r.json().get('results', [])
         seen, result = set(), []
         for item in raw:
