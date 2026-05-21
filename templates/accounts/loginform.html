@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Sign-in to Smart Transport System</title>
+  <title>Namma Transit — Sign In</title>
 <!-- Google Fonts  -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="{% static 'accounts/loginform.css' %}">
 </head>
 
-<body onload="switchMe()">
+<body>
 <!-- ............NAVBAR............... -->
 <nav class="navbar">
    <div class="brand-title">
@@ -80,7 +80,7 @@
          <div class="col-sm-6 form">
 
             <!-- Login Form -->
-            <div class="login form-peice switched" id="log">
+            <div class="login form-peice active" id="log">
                <form class="login-form" action="{% url 'login' %}" method="post">{% csrf_token %} <!-- Secured -->
                   <!-- if Not Found  -->
                   {% if 'login' ==  from %}

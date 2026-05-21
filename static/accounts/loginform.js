@@ -1,5 +1,4 @@
-    //////////////////// Custom JS ////////////////////////// 
-    // If user field in not empty then action will works
+    //////////////////// Custom JS //////////////////////////
     function validateForm() {
         var x1 = document.forms["myForm"]["name"].value;
         var x2 = document.forms["myForm"]["userid"].value;
@@ -22,10 +21,6 @@
         }
     }
 
-    // Switch to Log-in Page 
-    function switchMe() {
-        document.getElementById("haveAccount").click();
-    }
 
     //////////////////// Custom JS ////////////////////////// 
 
@@ -132,14 +127,8 @@ $(document).ready(function () {
 
     // form switch
     $('a.switch').click(function (e) {
-        $(this).toggleClass('active');
         e.preventDefault();
-
-        if ($('a.switch').hasClass('active')) {
-            $(this).parents('.form-peice').addClass('switched').siblings('.form-peice').removeClass('switched');
-        } else {
-            $(this).parents('.form-peice').removeClass('switched').siblings('.form-peice').addClass('switched');
-        }
+        $(this).parents('.form-peice').removeClass('active').siblings('.form-peice').addClass('active');
     });
 
 
