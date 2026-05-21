@@ -1,0 +1,393 @@
+<!-- load static  -->
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+  <title>Namma Transit — Find Directions</title>
+
+  <!-- Favicons -->
+  <link rel="icon" href="{% static 'accounts/assets/img/favicon.png' %}" type="image/gif" sizes="32x32">
+  <link href="{% static 'accounts/assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon"> 
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+  <link href="{% static 'accounts/assets/vendor/icofont/icofont.min.css' %}" rel="stylesheet"> 
+  <link href="{% static 'accounts/assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet"> 
+  <link href="{% static 'accounts/assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet"> 
+  <link href="{% static 'accounts/assets/vendor/venobox/venobox.css' %}" rel="stylesheet"> 
+  <link href="{% static 'accounts/assets/vendor/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet"> 
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'accounts/assets/css/custom.css' %}" rel="stylesheet"> <!-- CUSTOM --> 
+  <link href="{% static 'accounts/assets/css/style.css' %}" rel="stylesheet">  
+
+</head>
+
+<body>
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top ">
+    <div class="container d-flex align-items-center">
+      <a href="{% url 'home' %}" class="mr-auto" style="text-decoration:none;"><span style="font-size:1.5rem;font-weight:700;color:#e43c5c;letter-spacing:-0.5px;">🚌 Namma</span><span style="font-size:1.5rem;font-weight:700;color:#333;"> Transit</span></a>
+
+      <nav class="nav-menu d-none d-lg-block">
+        <ul>
+        {#                <!--make the nav bar dynamic using {% url 'home' %}#id -->#}
+
+          <li><a id="force-black" href="{% url 'home' %}">Home</a></li>
+          <li><a id="force-black" href="{% url 'home' %}#services">Search</a></li>
+          <li><a id="force-black" href="{% url 'home' %}#contact">About</a></li>
+          <li><a id="force-black" href="{% url 'home' %}#contact">Contact</a></li>
+          {% if user.is_authenticated %}
+                    <li style="color: #e43c5c;">Hi</li>
+                    <li>
+                        <button id="myBtn" type="button" class="btn btn-red" onclick="document.location='{% url 'logout' %}'">
+                            Logout
+                        </button>
+                    </li>
+                    <!-- SignUP-Login Form -->
+                {% else %}
+                    <li>
+                        <button id="myBtn" type="button" class="btn btn-red" onclick="document.location='{% url 'accounts' %}'">
+                            SignUP/Login                      
+                        </button>
+                    </li>
+                {% endif %}
+        </ul>
+      </nav><!-- .nav-menu -->
+
+    </div>
+  </header><!-- End Header -->
+
+  <main id="main">
+     <!-- ======= Breadcrumbs ======= -->
+   <section id="breadcrumbs" class="breadcrumbs">
+          <div class="container">
+            <h2><a href="{% url 'home' %}#services"><i class='bx bx-arrow-back'></i></a></h2>
+          </div>
+   </section><!-- End Breadcrumbs -->
+
+  {% if rain_alert %}
+  <div class="container mt-2">
+    <div class="alert alert-warning d-flex align-items-center" role="alert" style="border-left:5px solid #e43c5c;">
+      <i class="ri-rainy-line" style="font-size:1.5rem;margin-right:10px;color:#e43c5c;"></i>
+      <div>
+        <strong>Heavy rain detected in Bengaluru.</strong>
+        Expect delays and waterlogging near:
+        <strong>{{ flood_stops|join:", " }}</strong>.
+        Consider alternate routes or allow extra travel time.
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services">
+        <div class="container">
+          <style>
+            .badge-bus   { background:#ffbb2c; color:#000; font-size:.8rem; padding:4px 8px; border-radius:12px; }
+            .badge-metro { background:#7b2d8b; color:#fff; font-size:.8rem; padding:4px 8px; border-radius:12px; }
+            .badge-rail  { background:#1565c0; color:#fff; font-size:.8rem; padding:4px 8px; border-radius:12px; }
+            .badge-auto  { background:#2e7d32; color:#fff; font-size:.8rem; padding:4px 8px; border-radius:12px; }
+            .interchange-card { border-left:4px solid #e43c5c; background:#fff8f8; border-radius:6px; padding:14px 18px; margin-bottom:12px; }
+            .interchange-step { display:flex; align-items:center; gap:10px; margin:6px 0; }
+            .ix-divider { text-align:center; color:#999; font-size:.85rem; margin:4px 0; }
+          </style>
+
+          <div class="section-title">
+            <h3>We found <span>{{ Number_of_bus }} direct service{{ Number_of_bus|pluralize }}</span> for you</h3>
+            <div style="display: inline-block;" class="row">
+                <div id="axis">
+                    <img class="move-right" width="100px" src="https://mycdn.netlify.app/images/brtc.png"/>
+                </div>
+            </div>
+          <hr>
+          <table class="tblcenter">
+            <tr>
+              <td style="text-align: left;">{{ From }}</td>
+              <td style="text-align: right;">{{ To }}</td>
+            </tr>
+          </table>
+            <p>Tap on a service card below to see its full route.</p>
+          </div>
+        </div>
+      </section><!-- End Services Section -->
+
+<!-- .........................................................  -->
+
+
+<!-- --------------------------------- POPUP START ---------------------------------- -->
+<!-- REPEAT START - Looping id -->
+      {% for data in bus_list %}
+<div class="modal fade" id="{{ data.bus_id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">
+          {{ data.bus_name }}
+          <span class="badge-{{ data.mode|lower }}" style="font-size:.75rem;margin-left:8px;padding:3px 8px;border-radius:10px;">
+            {% if data.mode == 'METRO' %}<i class="ri-train-fill"></i>
+            {% elif data.mode == 'RAIL' %}<i class="ri-train-line"></i>
+            {% elif data.mode == 'AUTO' %}<i class="ri-e-bike-2-fill"></i>
+            {% else %}<i class="ri-bus-fill"></i>{% endif %}
+            {{ data.mode_display }}
+          </span>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="d-flex justify-content-center align-items-center flex-wrap" style="gap:18px;margin-bottom:8px;">
+          <h5 class="mb-0">
+            <i class="ri-road-map-line" style="color:#e43c5c;"></i>
+            Distance: <span>{{ data.distance }} km</span>
+          </h5>
+          {% if data.duration_min %}
+          <h5 class="mb-0">
+            <i class="ri-traffic-line" style="color:#7b2d8b;"></i>
+            ETA in traffic: <span>{{ data.duration_min }} min</span>
+          </h5>
+          {% endif %}
+        </div>
+        {% if data.crowd_status %}
+        <p class="text-center mb-1" style="font-size:.85rem;">
+          Crowd (last 30 min):
+          <strong>
+            {% if data.crowd_status == 'OVERCROWDED' %}<span style="color:#c62828;">&#9632; Overcrowded</span>
+            {% elif data.crowd_status == 'FULL' %}<span style="color:#e65100;">&#9632; Full</span>
+            {% elif data.crowd_status == 'MODERATE' %}<span style="color:#f9a825;">&#9632; Moderate</span>
+            {% else %}<span style="color:#2e7d32;">&#9632; Empty</span>{% endif %}
+          </strong>
+        </p>
+        {% endif %}
+        <!-- Crowd report form -->
+        <div class="text-center mb-2" data-bus-pk="{{ data.bus_pk }}">
+          <small style="color:#888;">Report crowd level:</small><br>
+          <div class="btn-group btn-group-sm mt-1 crowd-btns" role="group">
+            <button class="btn btn-outline-success crowd-btn" data-status="EMPTY">Empty</button>
+            <button class="btn btn-outline-warning crowd-btn" data-status="MODERATE">Moderate</button>
+            <button class="btn btn-outline-danger crowd-btn" data-status="FULL">Full</button>
+            <button class="btn btn-outline-dark crowd-btn" data-status="OVERCROWDED">Overcrowded</button>
+          </div>
+          <div class="crowd-thanks" style="display:none;color:#2e7d32;font-size:.8rem;margin-top:4px;">
+            Thanks for reporting!
+          </div>
+        </div>
+        <!-- ................TIMELINE.....................  -->
+        <div class="row">
+          <div class="col">
+            <ul class="timeline">
+                {% for a, b in data.bus_route %}
+              <li>
+                <div class="timeline-badge primary"><a><i class='bx bxs-map'></i></a></div>
+                <div class="timeline-panel">
+                  <div class="timeline-body">
+                    <p>{{ a }}</p>
+                  </div>
+                </div>
+              </li>
+
+              {% if b is not None %}
+              <li class="timeline-inverted">
+                <div class="timeline-badge primary"><a><i class='bx bxs-map'></i></a></div>
+                <div class="timeline-panel">
+                  <div class="timeline-body">
+                    <p>{{ b }}</p>
+                  </div>
+                </div>
+              </li>
+              {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <!-- ................TIMELINE.....................  -->
+      </div>
+      <div class="modal-footer">
+        <a href="{{ data.map_url }}" target="_blank" rel="noopener noreferrer"
+           class="btn btn-primary">
+          <i class="ri-map-pin-line"></i> Open in Google Maps
+        </a>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+      <!-- REPEAT END -->
+<!-- --------------------------------- POPUP END ---------------------------------- -->
+
+<!-- --------------------------------- POPUP START ---------------------------------- -->
+<!-- REPEAT START - Looping id -->
+{#<div class="modal fade" id="bus2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"  #}
+{#  aria-hidden="true">#}
+{#  <div class="modal-dialog modal-dialog-centered" role="document">#}
+{#    <div class="modal-content">#}
+{#      <div class="modal-header">#}
+{#        <h5 class="modal-title" id="exampleModalLongTitle">ALIF ENTERPRISE</h5>#}
+{#        <button type="button" class="close" data-dismiss="modal" aria-label="Close">#}
+{#          <span aria-hidden="true">&times;</span>#}
+{#        </button>#}
+{#      </div>#}
+{#      <div class="modal-body">#}
+{#        <h5 class="text-center">Total Distance: <span>10Km</span></h5>#}
+{#        <!-- ................TIMELINE.....................  -->#}
+{#        <div class="row">#}
+{#          <div class="col">#}
+{#            <ul class="timeline">#}
+{##}
+{#              <li>#}
+{#                <div class="timeline-badge primary"><a><i class='bx bxs-map'></i></a></div>#}
+{#                <div class="timeline-panel">#}
+{#                  <div class="timeline-body">#}
+{#                    <p>Dhanmondi</p>#}
+{#                  </div>#}
+{#                </div>#}
+{#              </li>#}
+{##}
+{#              <li class="timeline-inverted">#}
+{#                <div class="timeline-badge primary"><a><i class='bx bxs-map'></i></a></div>#}
+{#                <div class="timeline-panel">#}
+{#                  <div class="timeline-body">#}
+{#                    <p>Farmgate</p>#}
+{#                  </div>#}
+{#                </div>#}
+{#              </li>#}
+{#              #}
+{#            </ul>#}
+{#          </div>#}
+{#        </div>#}
+{#        <!-- ................TIMELINE.....................  -->#}
+{#      </div>#}
+{#      <div class="modal-footer">#}
+{#        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>#}
+{#        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->#}
+{#      </div>#}
+{#    </div>#}
+{#  </div>#}
+{#</div>#}
+<!-- REPEAT END -->
+<!-- --------------------------------- POPUP END ---------------------------------- -->
+
+<!-- --------------------------------- MAIN SECTION ---------------------------------- -->
+ <!-- ======= Features Section ======= -->
+
+ <section id="features" class="features">
+
+    <div class="container">
+      <div class="row">
+{% for data in bus_list %}
+        <div class="col-lg-3 col-md-4 col-6 mt-4" data-toggle="modal" data-target="#{{ data.bus_id }}">
+          <div class="icon-box">
+            {% if data.mode == 'METRO' %}<i class="ri-train-fill" style="color:#7b2d8b;"></i>
+            {% elif data.mode == 'RAIL' %}<i class="ri-train-line" style="color:#1565c0;"></i>
+            {% elif data.mode == 'AUTO' %}<i class="ri-e-bike-2-fill" style="color:#2e7d32;"></i>
+            {% else %}<i class="ri-bus-fill" style="color:#ffbb2c;"></i>{% endif %}
+            <h3>{{ data.bus_name }}</h3>
+            <p style="font-size:.75rem;color:#888;">{{ data.mode_display }}</p>
+          </div>
+        </div>
+{% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= Multi-hop Interchange Routes ======= -->
+  {% if multihop_list %}
+  <section id="multihop" class="services" style="padding-top:0;">
+    <div class="container">
+      <div class="section-title">
+        <h3>Multi-modal <span>Interchange Options</span></h3>
+        <p>Change transport mode at a connected stop to reach your destination.</p>
+      </div>
+      {% for hop in multihop_list %}
+      <div class="interchange-card">
+        <div class="interchange-step">
+          {% if hop.leg_a_mode == 'METRO' %}<i class="ri-train-fill" style="color:#7b2d8b;font-size:1.3rem;"></i>
+          {% elif hop.leg_a_mode == 'RAIL' %}<i class="ri-train-line" style="color:#1565c0;font-size:1.3rem;"></i>
+          {% elif hop.leg_a_mode == 'AUTO' %}<i class="ri-e-bike-2-fill" style="color:#2e7d32;font-size:1.3rem;"></i>
+          {% else %}<i class="ri-bus-fill" style="color:#ffbb2c;font-size:1.3rem;"></i>{% endif %}
+          <span>Take <strong>{{ hop.leg_a_name }}</strong> ({{ hop.leg_a_mode_display }}) from <strong>{{ From }}</strong></span>
+        </div>
+        <div class="ix-divider">
+          ↓ Change at <strong>{{ hop.interchange }}</strong>
+          &nbsp;[{{ hop.interchange_modes }}]&nbsp; ↓
+        </div>
+        <div class="interchange-step">
+          {% if hop.leg_b_mode == 'METRO' %}<i class="ri-train-fill" style="color:#7b2d8b;font-size:1.3rem;"></i>
+          {% elif hop.leg_b_mode == 'RAIL' %}<i class="ri-train-line" style="color:#1565c0;font-size:1.3rem;"></i>
+          {% elif hop.leg_b_mode == 'AUTO' %}<i class="ri-e-bike-2-fill" style="color:#2e7d32;font-size:1.3rem;"></i>
+          {% else %}<i class="ri-bus-fill" style="color:#ffbb2c;font-size:1.3rem;"></i>{% endif %}
+          <span>Board <strong>{{ hop.leg_b_name }}</strong> ({{ hop.leg_b_mode_display }}) to <strong>{{ To }}</strong></span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="container d-md-flex py-4">
+      <div class="mr-md-auto text-center text-md-left">
+        <div class="copyright">
+          &copy; Copyright <strong><span>Namma Transit</span></strong>. All Rights Reserved
+        </div>
+      </div>
+      <div class="social-links text-center text-md-right pt-3 pt-md-0">
+        <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+        <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+        <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'accounts/assets//vendor/jquery/jquery.min.js' %}"></script>  
+  <script src="{% static 'accounts/assets//vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script> 
+  <script src="{% static 'accounts/assets/vendor/jquery.easing/jquery.easing.min.js' %}"></script> 
+  <script src="{% static 'accounts/assets/vendor/php-email-form/validate.js' %}"></script> 
+  <script src="{% static 'accounts/assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script> 
+  <script src="{% static 'accounts/assets/vendor/owl.carousel/owl.carousel.min.js' %}"></script> 
+  <script src="{% static 'accounts/assets/vendor/owl.carousel/owl.carousel.min.js' %}"></script> 
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'accounts/assets/js/main.js' %}"></script>
+  <script src="{% static 'accounts/assets/js/custom.js' %}"></script> 
+  <!-- ......................................  -->
+
+
+  <!-- Crowd report AJAX -->
+  <script>
+  $(document).on('click', '.crowd-btn', function () {
+    var $btn = $(this);
+    var $card = $btn.closest('[data-bus-pk]');
+    var busPk = $card.data('bus-pk');
+    var status = $btn.data('status');
+    $.post('{% url "crowd_report" %}', {
+      bus_id: busPk,
+      status: status,
+      csrfmiddlewaretoken: '{{ csrf_token }}'
+    }).done(function () {
+      $card.find('.crowd-btns').hide();
+      $card.find('.crowd-thanks').show();
+    });
+  });
+  </script>
+</body>
+
+</html>

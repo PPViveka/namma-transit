@@ -1,0 +1,108 @@
+# Kannada (ಕನ್ನಡ) translations for Namma Transit
+msgid ""
+msgstr ""
+"Language: kn\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "English"
+msgstr "English"
+
+msgid "ಕನ್ನಡ"
+msgstr "ಕನ್ನಡ"
+
+msgid "Home"
+msgstr "ಮನೆ"
+
+msgid "Search"
+msgstr "ಹುಡುಕಿ"
+
+msgid "About"
+msgstr "ಬಗ್ಗೆ"
+
+msgid "Contact"
+msgstr "ಸಂಪರ್ಕ"
+
+msgid "All Buses"
+msgstr "ಎಲ್ಲಾ ಬಸ್ಸುಗಳು"
+
+msgid "Nearby Bus Stops"
+msgstr "ಸಮೀಪದ ಬಸ್ ನಿಲ್ದಾಣಗಳು"
+
+msgid "Find Direction"
+msgstr "ದಿಕ್ಕು ಹುಡುಕಿ"
+
+msgid "From"
+msgstr "ಇಂದ"
+
+msgid "To"
+msgstr "ಗೆ"
+
+msgid "BMTC Bus"
+msgstr "ಬಿಎಂಟಿಸಿ ಬಸ್"
+
+msgid "Namma Metro"
+msgstr "ನಮ್ಮ ಮೆಟ್ರೋ"
+
+msgid "Suburban Rail"
+msgstr "ಉಪನಗರ ರೈಲು"
+
+msgid "Auto Rickshaw"
+msgstr "ಆಟೋ ರಿಕ್ಷಾ"
+
+msgid "List of bus routes in Bengaluru City"
+msgstr "ಬೆಂಗಳೂರು ನಗರದ ಬಸ್ ಮಾರ್ಗಗಳ ಪಟ್ಟಿ"
+
+msgid "Mode"
+msgstr "ಸಾರಿಗೆ ವಿಧ"
+
+msgid "Start Point"
+msgstr "ಆರಂಭ ಸ್ಥಳ"
+
+msgid "End Point"
+msgstr "ಅಂತಿಮ ಸ್ಥಳ"
+
+msgid "Service Name"
+msgstr "ಸೇವೆಯ ಹೆಸರು"
+
+msgid "Nearby Bus Stations"
+msgstr "ಸಮೀಪದ ಬಸ್ ನಿಲ್ದಾಣಗಳು"
+
+msgid "Auto Fare Estimator"
+msgstr "ಆಟೋ ಶುಲ್ಕ ಅಂದಾಜು"
+
+msgid "Calculate"
+msgstr "ಲೆಕ್ಕ ಹಾಕಿ"
+
+msgid "Distance (km)"
+msgstr "ದೂರ (ಕಿ.ಮೀ)"
+
+msgid "Estimated fare:"
+msgstr "ಅಂದಾಜು ಶುಲ್ಕ:"
+
+msgid "Heavy rain detected in Bengaluru."
+msgstr "ಬೆಂಗಳೂರಿನಲ್ಲಿ ಭಾರಿ ಮಳೆ ಪತ್ತೆಯಾಗಿದೆ."
+
+msgid "Crowd (last 30 min):"
+msgstr "ಜನದಟ್ಟಣೆ (ಕಳೆದ 30 ನಿಮಿಷ):"
+
+msgid "Report crowd level:"
+msgstr "ಜನದಟ್ಟಣೆ ವರದಿ ಮಾಡಿ:"
+
+msgid "Empty"
+msgstr "ಖಾಲಿ"
+
+msgid "Moderate"
+msgstr "ಮಧ್ಯಮ"
+
+msgid "Full"
+msgstr "ಭರ್ತಿ"
+
+msgid "Overcrowded"
+msgstr "ಅತಿಯಾದ ಜನದಟ್ಟಣೆ"
+
+msgid "Multi-modal Interchange Options"
+msgstr "ಬಹು-ವಿಧ ಸಾರಿಗೆ ಬದಲಾವಣೆ ಆಯ್ಕೆಗಳು"
+
+msgid "Thanks for reporting!"
+msgstr "ವರದಿ ಮಾಡಿದ್ದಕ್ಕೆ ಧನ್ಯವಾದಗಳು!"

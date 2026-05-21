@@ -1,0 +1,190 @@
+<!-- load static  -->
+{% load static i18n %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+  <title>Namma Transit — All Services</title>
+
+  <!-- Favicons -->
+  <link rel="icon" href="{% static 'accounts/assets/img/favicon.png' %}" type="image/gif" sizes="32x32">
+  <link href="{% static 'accounts/assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon"> 
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+  <link href="{% static 'accounts/assets/vendor/icofont/icofont.min.css' %}" rel="stylesheet"> 
+  <link href="{% static 'accounts/assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet"> 
+  <link href="{% static 'accounts/assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet"> 
+  <link href="{% static 'accounts/assets/vendor/venobox/venobox.css' %}" rel="stylesheet"> 
+  <link href="{% static 'accounts/assets/vendor/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet"> 
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'accounts/assets/css/custom.css' %}" rel="stylesheet"> <!-- CUSTOM --> 
+  <link href="{% static 'accounts/assets/css/style.css' %}" rel="stylesheet">  
+
+</head>
+
+<body>
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top ">
+    <div class="container d-flex align-items-center">
+      <a href="{% url 'home' %}" class="mr-auto" style="text-decoration:none;"><span style="font-size:1.5rem;font-weight:700;color:#e43c5c;letter-spacing:-0.5px;">🚌 Namma</span><span style="font-size:1.5rem;font-weight:700;color:#333;"> Transit</span></a>
+
+      <nav class="nav-menu d-none d-lg-block">
+        <ul>
+          <li><a id="force-black" href="{% url 'home' %}">{% trans "Home" %}</a></li>
+          <li><a id="force-black" href="{% url 'home' %}#services">{% trans "Search" %}</a></li>
+          <li><a id="force-black" href="{% url 'home' %}#contact">{% trans "About" %}</a></li>
+          <li><a id="force-black" href="{% url 'home' %}#contact">{% trans "Contact" %}</a></li>
+          <li>
+            <form action="{% url 'set_language' %}" method="post" style="display:inline;">
+              {% csrf_token %}
+              <input name="next" type="hidden" value="{{ request.path }}">
+              <select name="language" onchange="this.form.submit()" style="border:1px solid #ccc;border-radius:4px;padding:2px 6px;font-size:.85rem;">
+                {% get_current_language as CURRENT_LANG %}
+                {% get_available_languages as LANGUAGES %}
+                {% for lang_code, lang_name in LANGUAGES %}
+                  <option value="{{ lang_code }}" {% if lang_code == CURRENT_LANG %}selected{% endif %}>{{ lang_name }}</option>
+                {% endfor %}
+              </select>
+            </form>
+          </li>
+          {% if user.is_authenticated %}
+                    <li style="color: #e43c5c;">Hi</li>
+                    <!-- SignUP-Login Form -->
+                    <li>
+                        <button id="myBtn" type="button" class="btn btn-red" onclick="document.location='{% url 'logout' %}'">
+                            Logout
+                        </button>
+                    </li>
+                    
+                {% else %}
+                    <li>
+                        <button id="myBtn" type="button" class="btn btn-red" onclick="document.location='{% url 'accounts' %}'">
+                            SignUP/Login                      
+                        </button>
+                    </li>
+                    <!-- SignUP-Login Form -->
+                {% endif %}
+        </ul>
+      </nav><!-- .nav-menu -->
+    </div>
+  </header><!-- End Header -->
+
+  <main id="main">
+     <!-- ======= Breadcrumbs ======= -->
+   <section id="breadcrumbs" class="breadcrumbs">
+          <div class="container">
+            <h2><a href="{% url 'home' %}#services"><i class='bx bx-arrow-back'></i></a></h2>
+          </div>
+   </section><!-- End Breadcrumbs -->
+   
+
+
+
+<!-- ======= About Section ======= -->
+<section id="about" class="about">
+  <div class="container">
+
+    <div class="section-title">
+      
+      <h3>{% trans "List of bus routes in Bengaluru City" %}</h3>
+      <hr>
+    </div>
+
+    <div class="row content">
+     
+      <!-- ..................ADDED.................  -->
+      <!-- ...............TABLE......................  -->
+<input style="width: 30%;" id="myInput" type="text" class="form-group pull-left search form-control" placeholder="Search bus name / place name">
+
+<style>
+  .badge-bus    { background:#ffbb2c; color:#000; }
+  .badge-metro  { background:#7b2d8b; color:#fff; }
+  .badge-rail   { background:#1565c0; color:#fff; }
+  .badge-auto   { background:#2e7d32; color:#fff; }
+</style>
+
+<table class="table table-striped table-bordered">
+    <thead class="bg-success text-light">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">{% trans "Service Name" %}</th>
+        <th scope="col">{% trans "Mode" %}</th>
+        <th scope="col">{% trans "Start Point" %}</th>
+        <th scope="col">{% trans "End Point" %}</th>
+      </tr>
+    </thead>
+    <tbody id="myTable">
+    {% for data in contex %}
+      <tr>
+        <th scope="row">{{ data.bus_id }}</th>
+        <td>{{ data.bus_name }} <br><span style="color:#e43c5c">{{ data.routes }}</span></td>
+        <td>
+          <span class="badge badge-pill badge-{{ data.mode|lower }}">
+            {% if data.mode == 'METRO' %}<i class="ri-train-fill"></i>
+            {% elif data.mode == 'RAIL' %}<i class="ri-train-line"></i>
+            {% elif data.mode == 'AUTO' %}<i class="ri-e-bike-2-fill"></i>
+            {% else %}<i class="ri-bus-fill"></i>{% endif %}
+            {{ data.mode_display }}
+          </span>
+        </td>
+        <td>{{ data.start }}</td>
+        <td>{{ data.end }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+<!-- ...............TABLE......................  -->
+      <!-- ..................ADDED.................  -->
+
+
+
+    </div>
+  </div>
+</section><!-- End About Section -->
+     
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="container d-md-flex py-4">
+      <div class="mr-md-auto text-center text-md-left">
+        <div class="copyright">
+          &copy; Copyright <strong><span>Namma Transit</span></strong>. All Rights Reserved
+        </div>
+      </div>
+      <div class="social-links text-center text-md-right pt-3 pt-md-0">
+        <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+        <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+        <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'accounts/assets//vendor/jquery/jquery.min.js' %}"></script>  
+  <script src="{% static 'accounts/assets//vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script> 
+  <script src="{% static 'accounts/assets/vendor/jquery.easing/jquery.easing.min.js' %}"></script> 
+  <script src="{% static 'accounts/assets/vendor/php-email-form/validate.js' %}"></script> 
+  <script src="{% static 'accounts/assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script> 
+  <script src="{% static 'accounts/assets/vendor/owl.carousel/owl.carousel.min.js' %}"></script> 
+  <script src="{% static 'accounts/assets/vendor/owl.carousel/owl.carousel.min.js' %}"></script> 
+  
+  <!-- Template Main JS File -->
+  <script src="{% static 'accounts/assets/js/main.js' %}"></script>
+  <script src="{% static 'accounts/assets/js/custom.js' %}"></script> 
+
+</body>
+
+</html>

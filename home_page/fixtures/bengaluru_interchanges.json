@@ -1,0 +1,122 @@
+[
+  {
+    "model": "home_page.interchange",
+    "pk": 1,
+    "fields": {
+      "stop_name": "Majestic",
+      "modes_available": "BUS,METRO,RAIL",
+      "metro_station_name": "Kempegowda Metro Station",
+      "rail_station_name": "KSR Bengaluru City Junction",
+      "lat": 12.9767,
+      "lng": 77.5713
+    }
+  },
+  {
+    "model": "home_page.interchange",
+    "pk": 2,
+    "fields": {
+      "stop_name": "MG Road",
+      "modes_available": "BUS,METRO",
+      "metro_station_name": "MG Road Metro Station",
+      "rail_station_name": "",
+      "lat": 12.9749,
+      "lng": 77.6094
+    }
+  },
+  {
+    "model": "home_page.interchange",
+    "pk": 3,
+    "fields": {
+      "stop_name": "Indiranagar",
+      "modes_available": "BUS,METRO",
+      "metro_station_name": "Indiranagar Metro Station",
+      "rail_station_name": "",
+      "lat": 12.9784,
+      "lng": 77.6408
+    }
+  },
+  {
+    "model": "home_page.interchange",
+    "pk": 4,
+    "fields": {
+      "stop_name": "Yeshwanthpur",
+      "modes_available": "BUS,METRO,RAIL",
+      "metro_station_name": "Yeshwanthpur Metro Station",
+      "rail_station_name": "Yeshwanthpur Junction",
+      "lat": 13.0222,
+      "lng": 77.5537
+    }
+  },
+  {
+    "model": "home_page.interchange",
+    "pk": 5,
+    "fields": {
+      "stop_name": "Whitefield",
+      "modes_available": "BUS,METRO,RAIL",
+      "metro_station_name": "Whitefield (Kadugodi) Metro Station",
+      "rail_station_name": "Whitefield Railway Station",
+      "lat": 12.9690,
+      "lng": 77.7500
+    }
+  },
+  {
+    "model": "home_page.interchange",
+    "pk": 6,
+    "fields": {
+      "stop_name": "Hebbal",
+      "modes_available": "BUS,METRO",
+      "metro_station_name": "Hebbal Metro Station",
+      "rail_station_name": "",
+      "lat": 13.0350,
+      "lng": 77.5946
+    }
+  },
+  {
+    "model": "home_page.interchange",
+    "pk": 7,
+    "fields": {
+      "stop_name": "Electronic City",
+      "modes_available": "BUS,RAIL",
+      "metro_station_name": "",
+      "rail_station_name": "Electronic City Railway Station",
+      "lat": 12.8393,
+      "lng": 77.6770
+    }
+  },
+  {
+    "model": "home_page.interchange",
+    "pk": 8,
+    "fields": {
+      "stop_name": "KR Puram",
+      "modes_available": "BUS,METRO,RAIL",
+      "metro_station_name": "KR Puram Metro Station",
+      "rail_station_name": "KR Puram Railway Station",
+      "lat": 13.0000,
+      "lng": 77.6970
+    }
+  },
+  {
+    "model": "home_page.interchange",
+    "pk": 9,
+    "fields": {
+      "stop_name": "Silk Board",
+      "modes_available": "BUS,METRO",
+      "metro_station_name": "Silk Board Metro Station",
+      "rail_station_name": "",
+      "lat": 12.9171,
+      "lng": 77.6231
+    }
+  },
+  {
+    "model": "home_page.interchange",
+    "pk": 10,
+    "fields": {
+      "stop_name": "Baiyappanahalli",
+      "modes_available": "BUS,METRO,RAIL",
+      "metro_station_name": "Baiyappanahalli Metro Station",
+      "rail_station_name": "Baiyappanahalli Railway Station",
+      "lat": 12.9892,
+      "lng": 77.6437
+    }
+  }
+]

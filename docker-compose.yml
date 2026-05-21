@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgis/postgis:15-3.3
+    environment:
+      POSTGRES_DB: namma_transit
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-namma123}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      retries: 10
+
+  web:
+    build: .
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py loaddata bengaluru_interchanges &&
+             gunicorn SmartTransportSystem.wsgi:application --bind 0.0.0.0:8000 --workers 2"
+    volumes:
+      - .:/app
+      - cache_vol:/app/.cache
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - USE_POSTGIS=True
+      - DB_HOST=db
+      - DB_NAME=namma_transit
+      - DB_USER=postgres
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+  cache_vol:

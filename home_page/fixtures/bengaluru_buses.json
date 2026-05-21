@@ -1,0 +1,228 @@
+[
+  {"model": "home_page.route", "pk": 1,  "fields": {"routes": "Majestic,KR Circle,Richmond Circle,Domlur,HAL,Marathahalli,ITPL,Kadugodi"}},
+  {"model": "home_page.route", "pk": 2,  "fields": {"routes": "KR Puram,Tin Factory,Ramamurthynagar,Marathahalli,Bellandur,HSR Layout,Silk Board"}},
+  {"model": "home_page.route", "pk": 3,  "fields": {"routes": "Domlur,Indiranagar,Halasuru,Koramangala,Silk Board,BTM Layout,Jayanagar,Banashankari"}},
+  {"model": "home_page.route", "pk": 4,  "fields": {"routes": "Yelahanka,Jalahalli,BEL Circle,Mathikere,Yeshwanthpur"}},
+  {"model": "home_page.route", "pk": 5,  "fields": {"routes": "Vijayanagara,Deepanjalinagar,Nayandahalli,Banashankari,BTM Layout,Silk Board,Bommanahalli,Electronic City"}},
+  {"model": "home_page.route", "pk": 6,  "fields": {"routes": "Peenya,Jalahalli,Goraguntepalya,Yeshwanthpur,Malleshwaram,Majestic"}},
+  {"model": "home_page.route", "pk": 7,  "fields": {"routes": "KR Market,Sirsi Circle,Mysore Road,Nayandahalli,RV College,Kengeri,Kambipura"}},
+  {"model": "home_page.route", "pk": 8,  "fields": {"routes": "Gunjur Palya,Sarjapura,Bellandur,Koramangala,Dairy Circle,Lalbagh,KR Market"}},
+  {"model": "home_page.route", "pk": 9,  "fields": {"routes": "Bagalur,Yelahanka,Jakkur,Hebbala,Mekhri Circle,Ananda Rao Circle,Majestic,KR Market"}},
+  {"model": "home_page.route", "pk": 10, "fields": {"routes": "Majestic,Hebbal,Yelahanka,Devanahalli,Kempegowda International Airport"}},
+  {"model": "home_page.route", "pk": 11, "fields": {"routes": "Hebbala,Manyatha Tech Park,Nagavara,KR Puram,Tin Factory,Marathahalli,Silk Board,BTM Layout,Jayanagar,Banashankari"}},
+  {"model": "home_page.route", "pk": 12, "fields": {"routes": "Shivajinagar,Koramangala,HSR Layout,Silk Board,Bommanahalli,Electronic City"}},
+  {"model": "home_page.route", "pk": 13, "fields": {"routes": "Kengeri,Mysuru Road,Vijayanagar,Magadi Road,Majestic,City Railway Station,MG Road,Indiranagar,Baiyappanahalli"}},
+  {"model": "home_page.route", "pk": 14, "fields": {"routes": "Baiyappanahalli,Indiranagar,MG Road,Majestic,City Railway Station,Magadi Road,Vijayanagar,Mysuru Road,Kengeri"}},
+  {"model": "home_page.route", "pk": 15, "fields": {"routes": "Nagasandra,Jalahalli,Peenya,Goraguntepalya,Yeshwanthpur,Mathikere,Rajajinagar,Majestic,National College,Jayanagar,JP Nagar,Banashankari,Silk Board"}},
+  {"model": "home_page.route", "pk": 16, "fields": {"routes": "Silk Board,Banashankari,JP Nagar,Jayanagar,National College,Majestic,Rajajinagar,Mathikere,Yeshwanthpur,Goraguntepalya,Peenya,Jalahalli,Nagasandra"}},
+  {"model": "home_page.route", "pk": 17, "fields": {"routes": "Whitefield,ITPL,Marathahalli,Indiranagar,MG Road,Cubbon Park,Majestic,City Railway Station,Magadi Road,Kengeri"}},
+  {"model": "home_page.route", "pk": 18, "fields": {"routes": "Hesaraghatta,Chikkabanavara,Jalahalli,Yeshwanthpur,Malleshwaram,KR Market"}},
+  {"model": "home_page.route", "pk": 19, "fields": {"routes": "Hampinagara,Vijayanagara,Rajajinagar,Yeshwanthpur,Mathikere,BEL Circle,Vidyaranyapura,Yelahanka"}},
+  {"model": "home_page.route", "pk": 20, "fields": {"routes": "Silk Board,HSR Layout,Bellandur,Marathahalli,KR Puram,Tin Factory,Ramamurthynagar,Manyatha Tech Park,Hebbala"}},
+  {"model": "home_page.route", "pk": 21, "fields": {"routes": "Gulaganjahalli,Kengeri,RV College,Nayandahalli,Mysore Road,Sirsi Circle,KR Market"}},
+  {"model": "home_page.route", "pk": 22, "fields": {"routes": "Hampapura,Kengeri,RV College,Nayandahalli,Mysore Road,Sirsi Circle,KR Market"}},
+  {"model": "home_page.route", "pk": 23, "fields": {"routes": "Bannerughatta,Hulimavu,Nimhans,Lakkasandra,Shanthinagara,Majestic"}},
+  {"model": "home_page.route", "pk": 24, "fields": {"routes": "Banasawadi,Coles Park,Vidhana Soudha,KR Circle,KR Market"}},
+  {"model": "home_page.route", "pk": 25, "fields": {"routes": "Yelahanka,Vidyaranyapura,BEL Circle,Mathikere,Yeshwanthpur,Rajajinagar,Vijayanagara,Nagarabhavi,Kengeri"}},
+
+  {"model": "home_page.businformation", "pk": 1, "fields": {
+    "bus_name": "335E",
+    "bus_sourcetodestination": "Majestic-Kadugodi",
+    "bus_viaroad": "majestic kr circle richmond circle domlur hal marathahalli itpl kadugodi",
+    "bus_type": "Ordinary",
+    "mode": "BUS",
+    "route_id": 1
+  }},
+  {"model": "home_page.businformation", "pk": 2, "fields": {
+    "bus_name": "500C",
+    "bus_sourcetodestination": "KR Puram-Silk Board",
+    "bus_viaroad": "kr puram tin factory ramamurthynagar marathahalli bellandur hsr layout silk board",
+    "bus_type": "Vajra",
+    "mode": "BUS",
+    "route_id": 2
+  }},
+  {"model": "home_page.businformation", "pk": 3, "fields": {
+    "bus_name": "201",
+    "bus_sourcetodestination": "Domlur-Banashankari",
+    "bus_viaroad": "domlur indiranagar halasuru koramangala silk board btm layout jayanagar banashankari",
+    "bus_type": "Ordinary",
+    "mode": "BUS",
+    "route_id": 3
+  }},
+  {"model": "home_page.businformation", "pk": 4, "fields": {
+    "bus_name": "401",
+    "bus_sourcetodestination": "Yelahanka-Yeshwanthpur",
+    "bus_viaroad": "yelahanka jalahalli bel circle mathikere yeshwanthpur",
+    "bus_type": "Ordinary",
+    "mode": "BUS",
+    "route_id": 4
+  }},
+  {"model": "home_page.businformation", "pk": 5, "fields": {
+    "bus_name": "600KA",
+    "bus_sourcetodestination": "Vijayanagara-Electronic City",
+    "bus_viaroad": "vijayanagara deepanjalinagar nayandahalli banashankari btm layout silk board bommanahalli electronic city",
+    "bus_type": "Ordinary",
+    "mode": "BUS",
+    "route_id": 5
+  }},
+  {"model": "home_page.businformation", "pk": 6, "fields": {
+    "bus_name": "252",
+    "bus_sourcetodestination": "Peenya-Majestic",
+    "bus_viaroad": "peenya jalahalli goraguntepalya yeshwanthpur malleshwaram majestic",
+    "bus_type": "Ordinary",
+    "mode": "BUS",
+    "route_id": 6
+  }},
+  {"model": "home_page.businformation", "pk": 7, "fields": {
+    "bus_name": "218",
+    "bus_sourcetodestination": "KR Market-Kambipura",
+    "bus_viaroad": "kr market sirsi circle mysore road nayandahalli rv college kengeri kambipura",
+    "bus_type": "Ordinary",
+    "mode": "BUS",
+    "route_id": 7
+  }},
+  {"model": "home_page.businformation", "pk": 8, "fields": {
+    "bus_name": "340",
+    "bus_sourcetodestination": "Gunjur Palya-KR Market",
+    "bus_viaroad": "gunjur palya sarjapura bellandur koramangala dairy circle lalbagh kr market",
+    "bus_type": "Ordinary",
+    "mode": "BUS",
+    "route_id": 8
+  }},
+  {"model": "home_page.businformation", "pk": 9, "fields": {
+    "bus_name": "289",
+    "bus_sourcetodestination": "Bagalur-KR Market",
+    "bus_viaroad": "bagalur yelahanka jakkur hebbala mekhri circle ananda rao circle majestic kr market",
+    "bus_type": "Ordinary",
+    "mode": "BUS",
+    "route_id": 9
+  }},
+  {"model": "home_page.businformation", "pk": 10, "fields": {
+    "bus_name": "298M",
+    "bus_sourcetodestination": "Majestic-Kempegowda International Airport",
+    "bus_viaroad": "majestic hebbal yelahanka devanahalli kempegowda international airport",
+    "bus_type": "Vajra",
+    "mode": "BUS",
+    "route_id": 10
+  }},
+  {"model": "home_page.businformation", "pk": 11, "fields": {
+    "bus_name": "500A",
+    "bus_sourcetodestination": "Hebbala-Banashankari",
+    "bus_viaroad": "hebbala manyatha tech park nagavara kr puram tin factory marathahalli silk board btm layout jayanagar banashankari",
+    "bus_type": "Ordinary",
+    "mode": "BUS",
+    "route_id": 11
+  }},
+  {"model": "home_page.businformation", "pk": 12, "fields": {
+    "bus_name": "356G",
+    "bus_sourcetodestination": "Shivajinagar-Electronic City",
+    "bus_viaroad": "shivajinagar koramangala hsr layout silk board bommanahalli electronic city",
+    "bus_type": "Ordinary",
+    "mode": "BUS",
+    "route_id": 12
+  }},
+  {"model": "home_page.businformation", "pk": 13, "fields": {
+    "bus_name": "Metro Purple Line (West-East)",
+    "bus_sourcetodestination": "Kengeri-Baiyappanahalli",
+    "bus_viaroad": "kengeri mysuru road vijayanagar magadi road majestic city railway station mg road indiranagar baiyappanahalli",
+    "bus_type": "Metro",
+    "mode": "METRO",
+    "route_id": 13
+  }},
+  {"model": "home_page.businformation", "pk": 14, "fields": {
+    "bus_name": "Metro Purple Line (East-West)",
+    "bus_sourcetodestination": "Baiyappanahalli-Kengeri",
+    "bus_viaroad": "baiyappanahalli indiranagar mg road majestic city railway station magadi road vijayanagar mysuru road kengeri",
+    "bus_type": "Metro",
+    "mode": "METRO",
+    "route_id": 14
+  }},
+  {"model": "home_page.businformation", "pk": 15, "fields": {
+    "bus_name": "Metro Green Line (North-South)",
+    "bus_sourcetodestination": "Nagasandra-Silk Board",
+    "bus_viaroad": "nagasandra jalahalli peenya goraguntepalya yeshwanthpur mathikere rajajinagar majestic national college jayanagar jp nagar banashankari silk board",
+    "bus_type": "Metro",
+    "mode": "METRO",
+    "route_id": 15
+  }},
+  {"model": "home_page.businformation", "pk": 16, "fields": {
+    "bus_name": "Metro Green Line (South-North)",
+    "bus_sourcetodestination": "Silk Board-Nagasandra",
+    "bus_viaroad": "silk board banashankari jp nagar jayanagar national college majestic rajajinagar mathikere yeshwanthpur goraguntepalya peenya jalahalli nagasandra",
+    "bus_type": "Metro",
+    "mode": "METRO",
+    "route_id": 16
+  }},
+  {"model": "home_page.businformation", "pk": 17, "fields": {
+    "bus_name": "Metro Purple Line (Extended East-West)",
+    "bus_sourcetodestination": "Whitefield-Kengeri",
+    "bus_viaroad": "whitefield itpl marathahalli indiranagar mg road cubbon park majestic city railway station magadi road kengeri",
+    "bus_type": "Metro",
+    "mode": "METRO",
+    "route_id": 17
+  }},
+  {"model": "home_page.businformation", "pk": 18, "fields": {
+    "bus_name": "253",
+    "bus_sourcetodestination": "Hesaraghatta-KR Market",
+    "bus_viaroad": "hesaraghatta chikkabanavara jalahalli yeshwanthpur malleshwaram kr market",
+    "bus_type": "Ordinary",
+    "mode": "BUS",
+    "route_id": 18
+  }},
+  {"model": "home_page.businformation", "pk": 19, "fields": {
+    "bus_name": "401B",
+    "bus_sourcetodestination": "Hampinagara-Yelahanka",
+    "bus_viaroad": "hampinagara vijayanagara rajajinagar yeshwanthpur mathikere bel circle vidyaranyapura yelahanka",
+    "bus_type": "Ordinary",
+    "mode": "BUS",
+    "route_id": 19
+  }},
+  {"model": "home_page.businformation", "pk": 20, "fields": {
+    "bus_name": "500D",
+    "bus_sourcetodestination": "Silk Board-Hebbala",
+    "bus_viaroad": "silk board hsr layout bellandur marathahalli kr puram tin factory ramamurthynagar manyatha tech park hebbala",
+    "bus_type": "Vajra",
+    "mode": "BUS",
+    "route_id": 20
+  }},
+  {"model": "home_page.businformation", "pk": 21, "fields": {
+    "bus_name": "221",
+    "bus_sourcetodestination": "Gulaganjahalli-KR Market",
+    "bus_viaroad": "gulaganjahalli kengeri rv college nayandahalli mysore road sirsi circle kr market",
+    "bus_type": "Ordinary",
+    "mode": "BUS",
+    "route_id": 21
+  }},
+  {"model": "home_page.businformation", "pk": 22, "fields": {
+    "bus_name": "226",
+    "bus_sourcetodestination": "Hampapura-KR Market",
+    "bus_viaroad": "hampapura kengeri rv college nayandahalli mysore road sirsi circle kr market",
+    "bus_type": "Ordinary",
+    "mode": "BUS",
+    "route_id": 22
+  }},
+  {"model": "home_page.businformation", "pk": 23, "fields": {
+    "bus_name": "365",
+    "bus_sourcetodestination": "Bannerughatta-Majestic",
+    "bus_viaroad": "bannerughatta hulimavu nimhans lakkasandra shanthinagara majestic",
+    "bus_type": "Ordinary",
+    "mode": "BUS",
+    "route_id": 23
+  }},
+  {"model": "home_page.businformation", "pk": 24, "fields": {
+    "bus_name": "303",
+    "bus_sourcetodestination": "Banasawadi-KR Market",
+    "bus_viaroad": "banasawadi coles park vidhana soudha kr circle kr market",
+    "bus_type": "Ordinary",
+    "mode": "BUS",
+    "route_id": 24
+  }},
+  {"model": "home_page.businformation", "pk": 25, "fields": {
+    "bus_name": "401K",
+    "bus_sourcetodestination": "Yelahanka-Kengeri",
+    "bus_viaroad": "yelahanka vidyaranyapura bel circle mathikere yeshwanthpur rajajinagar vijayanagara nagarabhavi kengeri",
+    "bus_type": "Ordinary",
+    "mode": "BUS",
+    "route_id": 25
+  }}
+]
