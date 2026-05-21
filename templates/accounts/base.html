@@ -57,14 +57,14 @@
           {% if user.is_authenticated %}
                     <li style="color: #e43c5c;">Hi</li>
                     <li>
-                        <button id="myBtn" type="button" class="btn btn-red" onclick="document.location='{% url 'logout' %}'">
+                        <button type="button" class="btn btn-red" onclick="document.location='{% url 'logout' %}'">
                             Logout
                         </button>
                     </li>
                     <!-- SignUP-Login Form -->
                 {% else %}
                     <li>
-                        <button id="myBtn" type="button" class="btn btn-red" onclick="document.location='{% url 'accounts' %}'">
+                        <button type="button" class="btn btn-red" onclick="document.location='{% url 'accounts' %}'">
                             SignUP/Login                      
                         </button>
                     </li>
@@ -353,12 +353,11 @@
   <a href="#" class="back-to-top"><i class="ri-arrow-up-line"></i></a>
 
   <!-- Vendor JS Files -->
-  <script src="{% static 'accounts/assets//vendor/jquery/jquery.min.js' %}"></script>  
-  <script src="{% static 'accounts/assets//vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script> 
+  <script src="{% static 'accounts/assets/vendor/jquery/jquery.min.js' %}"></script>  
+  <script src="{% static 'accounts/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script> 
   <script src="{% static 'accounts/assets/vendor/jquery.easing/jquery.easing.min.js' %}"></script> 
   <script src="{% static 'accounts/assets/vendor/php-email-form/validate.js' %}"></script> 
   <script src="{% static 'accounts/assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script> 
-  <script src="{% static 'accounts/assets/vendor/owl.carousel/owl.carousel.min.js' %}"></script> 
   <script src="{% static 'accounts/assets/vendor/owl.carousel/owl.carousel.min.js' %}"></script> 
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script> <!-- New Created AOS -->
 

@@ -37,13 +37,13 @@
        <li><a href="{% url 'home' %}#contact">Contact</a></li>
           {% if user.is_authenticated %}
              <li>
-                <button id="myBtn" type="button" class="btn btn-red" onclick="document.location='{% url 'logout' %}'">
+                <button type="button" class="btn btn-red" onclick="document.location='{% url 'logout' %}'">
                       Logout
                 </button>
             </li>
           {% else %}
              <li>
-                <button id="myBtn" type="button" class="btn btn-red" onclick="document.location='{% url 'accounts' %}'">
+                <button type="button" class="btn btn-red" onclick="document.location='{% url 'accounts' %}'">
                       SignUP/Login
                 </button>
              </li>
