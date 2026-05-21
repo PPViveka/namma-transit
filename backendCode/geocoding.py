@@ -1,11 +1,7 @@
-import os
-
 import requests
 from urllib.parse import urlencode
-from pprint import pprint
 from decouple import config
 
-# api_key = os.environ.get("API_KEY")  # Get API Key From Your Device "System Environment Variable"
 api_key = config('KEY2')
 
 
@@ -35,8 +31,6 @@ def geocoding_from_address(address):
     return data
 
 
-# p = geocoding_from_address('Jhigatola bust stop')
-# print(p)
 
 def reverse_geocoding(latlang):
     endpoint = f"https://maps.googleapis.com/maps/api/geocode/json"
@@ -46,7 +40,3 @@ def reverse_geocoding(latlang):
     if not results:
         return f"Location ({latlang})"
     return results[0]['formatted_address']
-
-
-# add = reverse_geocoding('23.7465882,90.3846205')
-# print(add)

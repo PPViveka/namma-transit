@@ -1,3 +1,5 @@
+import re
+
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
@@ -13,21 +15,35 @@ from home_page.models import BusInformation, Interchange, CrowdReport
 from decouple import config
 
 
+def _maps_js_url():
+    """Build the Google Maps JS API script URL."""
+    key = config('KEY2')
+    return f"https://maps.googleapis.com/maps/api/js?key={key}&callback=initMap&libraries=&v=weekly"
+
+
 def _rain_context():
     """Return rain alert keys to merge into any view context."""
     is_heavy, affected = get_rain_alert()
     return {'rain_alert': is_heavy, 'flood_stops': affected}
 
 
+def _pair_stops(route_list):
+    """Convert a flat list of stops into (a, b) pairs for the timeline template."""
+    pairs = []
+    for i in range(0, len(route_list), 2):
+        a = route_list[i]
+        b = route_list[i + 1] if i + 1 < len(route_list) else None
+        pairs.append((a, b))
+    return pairs
+
+
 def searchnearby_address(request):
     if request.method != 'POST':
         return redirect('home')
     location = request.POST.get('userlocationaddress', '')
-    text = config('KEY2')
-    url = f"https://maps.googleapis.com/maps/api/js?key={text}&callback=initMap&libraries=&v=weekly"
     data = geocoding_from_address(location)
     nearby_list = search_nearby_places(data['lat'], data['lng'])
-    data.update({'nearlist': nearby_list, 'text': url})
+    data.update({'nearlist': nearby_list, 'text': _maps_js_url()})
     data.update(_rain_context())
     return render(request, 'smartTracking/searchnearby.html', data)
 
@@ -44,12 +60,10 @@ def searchnearby_latlng(request):
     lat, lng = parts
     formatted_address = reverse_geocoding(location)
     nearby_list = search_nearby_places(lat=lat, lng=lng)
-    text = config('KEY2')
-    url = f"https://maps.googleapis.com/maps/api/js?key={text}&callback=initMap&libraries=&v=weekly"
     data = {
         'formatted_address': formatted_address,
         'nearlist': nearby_list,
-        'text': url,
+        'text': _maps_js_url(),
         'lat': lat,
         'lng': lng,
     }
@@ -78,12 +92,7 @@ def _build_bus_segment(bus, start, end):
     bus_route = bus_raw_route[lo:hi + 1]
     distance_km, duration_min = find_distance(list(bus_route))
     flat_stops = [s.strip() for s in bus_route]
-    list_route = []
-    for i in range(0, len(bus_route), 2):
-        a = bus_route[i]
-        b = bus_route[i + 1] if i + 1 < len(bus_route) else None
-        list_route.append((a, b))
-    return list_route, distance_km, duration_min, flat_stops
+    return _pair_stops(bus_route), distance_km, duration_min, flat_stops
 
 
 def finddirection(request):
@@ -94,16 +103,21 @@ def finddirection(request):
     start = str(request.POST.get('from', '')).strip()
     end = str(request.POST.get('to', '')).strip()
     try:
-        # Crowd reports from the last 30 minutes
+        # Crowd reports from the last 30 minutes — .values() avoids full model hydration
         recent_cutoff = timezone.now() - timedelta(minutes=30)
         recent_crowd = {}
-        for report in CrowdReport.objects.filter(reported_at__gte=recent_cutoff).order_by('-reported_at'):
-            if report.bus_id not in recent_crowd:
-                recent_crowd[report.bus_id] = report.status
+        for r in (CrowdReport.objects
+                  .filter(reported_at__gte=recent_cutoff)
+                  .order_by('-reported_at')
+                  .values('bus_id', 'status')):
+            if r['bus_id'] not in recent_crowd:
+                recent_crowd[r['bus_id']] = r['status']
 
-        # Direct routes
-        buses = BusInformation.objects.filter(
-            bus_viaroad__iregex=start).filter(bus_viaroad__iregex=end)
+        # Direct routes — icontains is safe; iregex with user input risks ReDoS
+        buses = (BusInformation.objects
+                 .select_related('route_id')
+                 .filter(bus_viaroad__icontains=start)
+                 .filter(bus_viaroad__icontains=end))
         for bus in buses:
             list_route, distance_km, duration_min, flat_stops = _build_bus_segment(bus, start, end)
             if list_route is None:
@@ -124,10 +138,14 @@ def finddirection(request):
         # Multi-hop via interchange stops
         for interchange in Interchange.objects.all():
             ix = interchange.stop_name
-            leg_a_qs = BusInformation.objects.filter(
-                bus_viaroad__iregex=start).filter(bus_viaroad__iregex=ix)
-            leg_b_qs = BusInformation.objects.filter(
-                bus_viaroad__iregex=ix).filter(bus_viaroad__iregex=end)
+            leg_a_qs = (BusInformation.objects
+                        .select_related('route_id')
+                        .filter(bus_viaroad__icontains=start)
+                        .filter(bus_viaroad__icontains=ix))
+            leg_b_qs = (BusInformation.objects
+                        .select_related('route_id')
+                        .filter(bus_viaroad__icontains=ix)
+                        .filter(bus_viaroad__icontains=end))
             if leg_a_qs.exists() and leg_b_qs.exists():
                 bus_a, bus_b = leg_a_qs[0], leg_b_qs[0]
                 if bus_a.mode != bus_b.mode:
@@ -159,9 +177,8 @@ def finddirection(request):
             'Number_of_bus': 0,
             'bus_list': [],
             'multihop_list': [],
-            'rain_alert': False,
-            'flood_stops': [],
         }
+        context.update(_rain_context())
         return render(request, 'smartTracking/finddirection.html', context)
 
 
@@ -197,14 +214,15 @@ def findspecificbus(request):
         return redirect('home')
     bus_name_from_user = str(request.POST.get('bus_name', '')).strip()
     try:
-        # Try exact-ish match first (search term inside bus name)
-        qs = BusInformation.objects.filter(bus_name__icontains=bus_name_from_user)
+        qs = BusInformation.objects.select_related('route_id').filter(
+            bus_name__icontains=bus_name_from_user
+        )
         if not qs.exists():
-            # Reverse: bus name inside what user typed (e.g. user typed "401K", bus is "401")
-            import re
             numeric_prefix = re.match(r'(\d+)', bus_name_from_user)
             if numeric_prefix:
-                qs = BusInformation.objects.filter(bus_name__icontains=numeric_prefix.group(1))
+                qs = BusInformation.objects.select_related('route_id').filter(
+                    bus_name__icontains=numeric_prefix.group(1)
+                )
         bus = qs[0]
         ssource_destination = str(bus.bus_sourcetodestination)
         if '-' in ssource_destination:
@@ -213,30 +231,26 @@ def findspecificbus(request):
             start, end = ssource_destination, ssource_destination
         routes = bus.route_id.routes.split(sep=',')
         flat_stops = [s.strip() for s in routes]
-        list_route = []
-        for i in range(0, len(routes), 2):
-            temp = (routes[i], routes[i + 1] if i + 1 < len(routes) else None)
-            list_route.append(temp)
         data = {
             'check': 0,
             'bus_id': bus.bus_id,
             'bus_name': bus.bus_name,
             'start': start,
             'end': end,
-            'routes': list_route,
+            'routes': _pair_stops(routes),
             'mode': bus.mode,
             'mode_display': bus.get_mode_display(),
             'map_url': _google_maps_url(flat_stops),
         }
         return render(request, 'smartTracking/findspecificbus.html', data)
-    except (IndexError, Exception):
+    except Exception:
         return render(request, 'smartTracking/findspecificbus.html',
                       {'check': 1, 'error': bus_name_from_user})
 
 
 def allbuses(request):
     buses_list = []
-    for bus in BusInformation.objects.all():
+    for bus in BusInformation.objects.select_related('route_id').all():
         ssource_destination = str(bus.bus_sourcetodestination)
         if '-' in ssource_destination:
             start, end = ssource_destination.split(sep='-', maxsplit=1)
